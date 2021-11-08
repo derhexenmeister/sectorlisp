@@ -62,12 +62,13 @@ _begin:	push	%cs				# memory model cs=ds=es = 0x600
 	pop	%ss
 	mov	%cx,%sp
 	mov	$g_mem,%ax
-	mov	%ax,%fs				# fs = &g_mem
+	mov	%ax,%bp				# fs = &g_mem
 	rep stosb				# clears our bss memory
 main:	mov	$'\n',%dl
 	call	GetToken
 	call	GetObject
 	mov	$NIL,%dx
+	mov	%dx,%cx
 	call	Eval
 	call	PrintObject
 	mov	$'\r',%al
@@ -118,7 +119,7 @@ PrintObject:					# PrintObject(x:ax)
 	mov	(%di),%di			# di = Car(x)
 	call	.PutObject
 	pop	%ax				# restore 1
-	cmp	$NIL,%ax
+	cmp	%cx,%ax
 	je	4f
 	test	$1,%al
 	xchg	%ax,%di
@@ -166,11 +167,11 @@ GetChar:
 						# al is ascii character
 PutChar:
 #	push	%bx				# don't clobber di,si,cx,dx
-#	push	%bp				# original ibm pc scroll up bug
+	push	%bp				# original ibm pc scroll up bug
 	xor	%bx,%bx				# normal mda/cga style page zero
 	mov	$0x0e,%ah			# teletype output al cp437
 	int	$0x10				# vidya service
-#	pop	%bp				# preserves al
+	pop	%bp				# preserves al
 #	pop	%bx
 	cmp	$'\r',%al			# don't clobber stuff
 	jne	.ret
@@ -179,7 +180,7 @@ PutChar:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Pairlis:cmp	$NIL,%di			# Pairlis(x:di,y:si,a:dx):ax
+Pairlis:cmp	%cx,%di				# Pairlis(x:di,y:si,a:dx):ax
 	je	1f
 	push	2(%di)				# save 1 Cdr(x)
 	lodsw
@@ -197,7 +198,7 @@ Pairlis:cmp	$NIL,%di			# Pairlis(x:di,y:si,a:dx):ax
 1:	xchg	%dx,%ax
 	ret
 
-Evlis:	cmp	$NIL,%di			# Evlis(m:di,a:dx):ax
+Evlis:	cmp	%cx,%di				# Evlis(m:di,a:dx):ax
 	je	1f
 	push	2(%di)				# save 1 Cdr(m)
 	mov	(%di),%ax
@@ -212,13 +213,13 @@ xCons:	xchg	%ax,%si
 	pop	%di				# restore 2
 #	jmp	Cons
 Cons:	xchg	%di,%ax
-	mov	%fs,%di
+	mov	%bp,%di
 	stosw
 	xchg	%si,%ax
 	stosw
 	xchg	%di,%ax
-	mov	%fs,%di
-	mov	%ax,%fs
+	mov	%bp,%di
+	mov	%ax,%bp
 1:	xchg	%di,%ax
 	ret
 
@@ -238,7 +239,7 @@ Evcon:	push	%di				# save c
 	call	Eval
 	pop	%dx				# restore a
 	pop	%di				# restore c
-	cmp	$NIL,%ax
+	cmp	%cx,%ax
 	jz	1b
 	mov	(%di),%di			# di = Car(c)
 .EvCadr:call	Cadr				# ax = Cadar(c)
@@ -283,12 +284,13 @@ Apply:	test	$1,%al				# Apply(fn:ax,x:si:a:dx):ax
 .ifCar:	cmp	$ATOM_CAR,%al
 	je	.retA
 .ifCdr:	cmp	$ATOM_CDR,%al
-	cmove	2(%di),%ax
-	je	.retD
+	jne	7f
+	mov	2(%di),%ax
+7:	je	.retD
 .ifAtom:cmp	$ATOM_ATOM,%al
 	jne	.ifCons
-	test	$1,%di
-	jnz	.retT
+	shr	%di				# test if atom
+	jc	.retT
 .retF:	mov	$NIL,%ax			# ax = NIL
 .retD:	ret
 .dflt1:	push	%si				# save x
@@ -303,7 +305,7 @@ Cadr:	mov	2(%di),%di			# contents of decrement register
 	ret
 
 1:	mov	2(%si),%dx			# dx = Cdr(y)
-Assoc:	cmp	$NIL,%dx			# Assoc(x:ax,y:dx):ax
+Assoc:	cmp	%cx,%dx				# Assoc(x:ax,y:dx):ax
 	mov	%dx,%si
 	je	.retF
 	mov	(%si),%bx			# bx = Car(y)
