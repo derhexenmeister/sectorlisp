@@ -84,7 +84,11 @@ GetToken:					# GetToken():al, dl is g_look
 	stosb
 	xchg	%ax,%cx
 2:	call	GetChar				# bh = 0 after PutChar
-	xchg	%ax,%dx				# dl = g_look
+	cmp	$8,%al
+	jne	4f
+	dec	%di
+	jmp	2b
+4:	xchg	%ax,%dx				# dl = g_look
 	cmp	$' ',%al
 	jbe	1b
 	cmp	$')',%al
