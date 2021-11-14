@@ -1,10 +1,77 @@
 file: tls/chapter2/lat?.lisp 
 input: (QUOTE (fried rice and singapore noodles))
 output: T
+
 input: (QUOTE (fried (rice) and singapore noodles))
 output: NIL
+
 input: (QUOTE a)
 output: NIL
+
+; () does not contain a list, so it's T
 input: (QUOTE ())
 output: T
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter2/member?.lisp 
+input: (QUOTE bread) (QUOTE (two slices of bread and sliced tomato))
+output: T
+
+input: (QUOTE two) (QUOTE (two slices of bread and sliced tomato))
+output: T
+
+input: (QUOTE tomato) (QUOTE (two slices of bread and sliced tomato))
+output: T
+
+input: (QUOTE bacon) (QUOTE (two slices of bread and sliced tomato))
+output: NIL
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/rember.lisp 
+input: (QUOTE rice) (QUOTE (white rice and fried rice and brown rice and rice cakes))
+output: (white and fried rice and brown rice and rice cakes∙NIL)
+
+input: (QUOTE white) (QUOTE (white rice and fried rice and brown rice and rice cakes))
+output: (rice and fried rice and brown rice and rice cakes∙NIL)
+
+input: (QUOTE cakes) (QUOTE (white rice and fried rice and brown rice and rice cakes))
+output: (white rice and fried rice and brown rice and rice∙NIL)
+
+input: (QUOTE chocolate) (QUOTE (white rice and fried rice and brown rice and rice cakes))
+output: (white rice and fried rice and brown rice and rice cakes∙NIL)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/firsts.lisp 
+input: (QUOTE ((c a) (a b) (t u)))
+output: (c a t∙NIL)
+
+input: (QUOTE (((c) (a)) ((a) (b)) ((t) (u))))
+output: ((c∙NIL) (a∙NIL) (t∙NIL)∙NIL)
+
+input: (QUOTE ((c)))
+output: (c∙NIL)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/insertR.lisp 
+input: (QUOTE sliced) (QUOTE and) (QUOTE (mango pudding and mango))
+output: (mango pudding and sliced mango∙NIL)
+
+input: (QUOTE cream) (QUOTE ice) (QUOTE (mango pudding and vanilla ice))
+output: (mango pudding and vanilla ice cream∙NIL)
+
+input: (QUOTE mango) (QUOTE thai) (QUOTE (thai coconut pudding and thai iced tea))
+output: (thai mango coconut pudding and thai iced tea∙NIL)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/insertL.lisp 
+input: (QUOTE thai) (QUOTE mango) (QUOTE (mango pudding and fresh mango))
+output: (thai mango pudding and fresh mango∙NIL)
+
+input: (QUOTE sugar) (QUOTE cookies) (QUOTE (fresh fruit and cookies))
+output: (fresh fruit and sugar cookies∙NIL)
+
+input: (QUOTE breakfast) (QUOTE tea) (QUOTE (tea))
+output: (breakfast tea∙NIL)
+
+input: (QUOTE hot) (QUOTE breakfast) (QUOTE (breakfast tea and iced tea))
+output: (hot breakfast tea and iced tea∙NIL)
