@@ -75,3 +75,115 @@ output: (breakfast tea∙NIL)
 
 input: (QUOTE hot) (QUOTE breakfast) (QUOTE (breakfast tea and iced tea))
 output: (hot breakfast tea and iced tea∙NIL)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/subst.lisp 
+input: (QUOTE tea) (QUOTE coffee) (QUOTE (breakfast coffee and iced tea))
+output: (breakfast tea and iced tea∙NIL)
+
+; When new doesn't exist do nothing
+input: (QUOTE tea) (QUOTE latte) (QUOTE (breakfast coffee and iced tea))
+output: (breakfast coffee and iced tea∙NIL)
+
+; First item in list
+input: (QUOTE afternoon) (QUOTE breakfast) (QUOTE (breakfast coffee and iced tea))
+output: (afternoon coffee and iced tea∙NIL)
+
+; Last item in list
+input: (QUOTE coffee) (QUOTE tea) (QUOTE (hot breakfast coffee and iced tea))
+output: (hot breakfast coffee and iced coffee∙NIL)
+
+; Only the first match
+input: (QUOTE milk) (QUOTE coffee) (QUOTE (coffee and iced coffee))
+output: (milk and iced coffee∙NIL)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/subst2.lisp 
+input: (SUBST2 (QUOTE vanilla) (QUOTE banana) (QUOTE durian) (QUOTE (banana frozen yogurt with popping boba)))
+output: (vanilla frozen yogurt with popping boba∙NIL)
+
+input: (SUBST2 (QUOTE vanilla) (QUOTE banana) (QUOTE durian) (QUOTE (durian frozen yogurt with popping boba)))
+output: (vanilla frozen yogurt with popping boba∙NIL)
+
+; TODO - insert multi versions
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Represent numbers with lists for simplicity
+; bc can be used to check the answers during test development
+;
+; $ echo "(1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0∙NIL)" | awk '{gsub("∙NIL", "");print}' | bc
+; 20
+;
+file: tls/chapter4/numbers.lisp 
+; Constants
+input: ZERO
+output: (0∙NIL)
+
+input: ONE
+output: (1+ 0∙NIL)
+
+input: TWO
+output:  (1+ 1+ 0∙NIL)
+
+input: THREE
+output: (1+ 1+ 1+ 0∙NIL)
+
+input: FOUR
+output: (1+ 1+ 1+ 1+ 0∙NIL)
+
+input: FIVE
+output: (1+ 1+ 1+ 1+ 1+ 0∙NIL)
+
+; Incrementing by one
+input: (ADD1 ZERO)
+output: (1+ 0∙NIL)
+
+; Decrementing by one
+input: (SUB1 FIVE)
+output: (1+ 1+ 1+ 1+ 0∙NIL)
+
+; Adding two numbers
+input: (+ FOUR FIVE)
+output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0∙NIL)
+
+; Subtracting two numbers
+input: (- FIVE FOUR)
+output: (1+ 0∙NIL)
+
+; Nested addition and subtraction
+input: (- FIVE (+ FOUR ONE))
+output: (0∙NIL)
+
+; Nested plus check for zero
+input: (ZERO? (- FIVE (+ FOUR ONE)))
+output: T
+
+; Multiplying two numbers
+input: (* FIVE FOUR)
+output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0∙NIL)
+
+; Sanity check multiplication by zero
+input: (* FIVE ZERO)
+output: (0∙NIL)
+
+input: (* ZERO FIVE)
+output: (0∙NIL)
+
+; Checking for zero
+input: (ZERO? ZERO)
+output: T
+
+input: (ZERO? ONE)
+output: NIL
+
+; Adding tuples of numbers
+; TODO - can't use symbolic input?
+input: (ADDTUP (QUOTE ((1+ 0) (1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))))
+output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0∙NIL)
+
+; Only one number in tuple
+input: (ADDTUP (QUOTE ((0))))
+output: (0∙NIL)
+
+input: (ADDTUP (QUOTE ((1+ 0))))
+output: (1+ 0∙NIL)
