@@ -1,0 +1,10 @@
+file: tls/chapter2/lat?.lisp 
+input: (QUOTE (fried rice and singapore noodles))
+output: T
+input: (QUOTE (fried (rice) and singapore noodles))
+output: NIL
+input: (QUOTE a)
+output: NIL
+input: (QUOTE ())
+output: T
+
