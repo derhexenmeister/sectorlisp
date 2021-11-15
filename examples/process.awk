@@ -1,8 +1,8 @@
 # Awk script to run lisp testcases
-# Usage: awk -f process.awk < testlist.txt
+# Usage: awk -f process.awk < tls_tests.txt
 #
 BEGIN {
-	DEBUG = 0
+	DEBUG = 1
 	TEMPLISP = "program.lisp"
 	INPUT_LABEL = "INSERT_TEST_DATA_HERE"
 	LISPCMD = "../lisp"
@@ -45,6 +45,7 @@ function process(file, input, output,    first, line, actual) {
 	first = 1
 	if (DEBUG) {
 		print "=========="
+		print "process: test # = " TESTCNT
 		print "process: file = " file
 		print "process: input = " input
 		print "process: output = " output

@@ -1,0 +1,48 @@
+file: metacircular/lisp.lisp 
+
+;; NIL ATOM
+;; ABSENCE OF VALUE AND TRUTH
+input: NIL
+output: NIL
+
+;; CONS CELL
+;; BUILDING BLOCK OF DATA STRUCTURES
+input: (CONS NIL NIL)
+output: (NIL∙NIL)
+
+input: (CONS (QUOTE X) (QUOTE Y))
+output: (X∙Y)
+
+;; REFLECTION
+;; EVERYTHING IS AN ATOM OR NOT AN ATOM
+input: (ATOM NIL)
+output: T
+
+input: (ATOM (CONS NIL NIL))
+output: NIL
+
+;; QUOTING
+;; CODE IS DATA AND DATA IS CODE
+input: (QUOTE (CONS NIL NIL))
+output: (CONS NIL NIL∙NIL)
+
+input: (CONS (QUOTE CONS) (CONS NIL (CONS NIL NIL)))
+output: (CONS NIL NIL∙NIL)
+
+;; LOGIC
+;; BY WAY OF STRING INTERNING
+input: (EQ (QUOTE A) (QUOTE A))
+output: T
+
+input: (EQ (QUOTE T) (QUOTE F))
+output: NIL
+
+;; FIND FIRST ATOM IN TREE
+;; CORRECT RESULT OF EXPRESSION IS `A`
+;; RECURSIVE CONDITIONAL FUNCTION BINDING
+input: ((LAMBDA (FF X) (FF X)) (QUOTE (LAMBDA (X) (COND ((ATOM X) X) ((QUOTE T) (FF (CAR X)))))) (QUOTE ((A) B C)))
+output: A
+
+;; RUN FF IN LISP VERSION OF THE METACIRCULAR EVALUATOR
+input: (EVAL (QUOTE ((LAMBDA (FF X) (FF X)) (QUOTE (LAMBDA (X) (COND ((ATOM X) X) ((QUOTE T) (FF (CAR X)))))) (QUOTE ((A) B C)))) ())
+output: A
