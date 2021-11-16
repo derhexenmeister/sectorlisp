@@ -119,6 +119,58 @@ output: NIL
 ;;
 ;; LISP 1.5 Programmer's Manual, pages 11-12
 ;;
+;; If we execute the following program:
+;;
+;; ((LAMBDA (CONS3 X Y Z) (CONS3 X Y Z))
+;;  (QUOTE (LAMBDA (L) (CONS X (CONS Y Z))))
+;;  (QUOTE A)
+;;  (QUOTE B)
+;;  (QUOTE C))
+;;
+;; The we will see PAIRLIS called with:
+;;
+;;   Pairlis x> (CONS3 X Y Z∙NIL)
+;;   Pairlis y> ((LAMBDA (L∙NIL) (CONS X (CONS Y Z∙NIL)∙NIL)∙NIL) A B C∙NIL)
+;;   Pairlis a> NIL
+;;
+;; And then the more obvious looking recursion:
+;;   Pairlis x> (X Y Z∙NIL)
+;;   Pairlis y> (A B C∙NIL)
+;;   Pairlis a> NIL
+;;
+;; This results in:
+;;
+;;   Pairlis recursion returned si> ((X∙A) (Y∙B) (Z∙C)∙NIL)
+;;
+;; Where the arguments are paired with their values.
+;;
+input: (PAIRLIS () () ())
+output: NIL
+
+input: (PAIRLIS () () (QUOTE (A B C)))
+output: (A B C∙NIL)
+
+input: (PAIRLIS (QUOTE (A)) (QUOTE (B)) ())
+output: ((A∙B)∙NIL)
+
+;; Now a simple example where we want to create some pairs in two
+;; steps
+;;
+;; a b c d e f : Parameters
+;; n o p q r s : Values
+
+input: (PAIRLIS (QUOTE (A B C)) (QUOTE (N O P)) ())
+output: ((A∙N) (B∙O) (C∙P)∙NIL)
+
+;; TODO: Not sure how to create A in the correct format without
+;; a lot of CONSing
+;;
+input: (PAIRLIS (QUOTE (D E F)) (QUOTE (Q R S)) (CONS (CONS (QUOTE A) (QUOTE N)) (CONS (CONS (QUOTE B) (QUOTE O)) (CONS (CONS (QUOTE C) (QUOTE P)) NIL))))
+output: ((D∙Q) (E∙R) (F∙S) (A∙N) (B∙O) (C∙P)∙NIL)
+
+;; We can also create the above with PAIRLIS
+input: (PAIRLIS (QUOTE (D E F)) (QUOTE (Q R S)) (PAIRLIS (QUOTE (A B C)) (QUOTE (N O P)) ()))
+output: ((D∙Q) (E∙R) (F∙S) (A∙N) (B∙O) (C∙P)∙NIL)
 
 ;;;;;
 ;; EVLIS
