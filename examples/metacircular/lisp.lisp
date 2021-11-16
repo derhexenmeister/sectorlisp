@@ -9,24 +9,29 @@
 ((LAMBDA (ASSOC EVCON PAIRLIS EVLIS APPLY EVAL)
 INSERT_TEST_DATA_HERE
    )
+ ; ASSOC
  (QUOTE (LAMBDA (X Y)
           (COND ((EQ Y ()) ())
                 ((EQ X (CAR (CAR Y)))
                        (CDR (CAR Y)))
                 ((QUOTE T)
                  (ASSOC X (CDR Y))))))
+ ; EVCON
  (QUOTE (LAMBDA (C A)
           (COND ((EVAL (CAR (CAR C)) A)
                  (EVAL (CAR (CDR (CAR C))) A))
                 ((QUOTE T) (EVCON (CDR C) A)))))
+ ; PAIRLIS
  (QUOTE (LAMBDA (X Y A)
           (COND ((EQ X ()) A)
                 ((QUOTE T) (CONS (CONS (CAR X) (CAR Y))
                                  (PAIRLIS (CDR X) (CDR Y) A))))))
+ ; EVLIS
  (QUOTE (LAMBDA (M A)
           (COND ((EQ M ()) ())
                 ((QUOTE T) (CONS (EVAL (CAR M) A)
-                                 (EVLIS (CDR M) A A))))))
+                                 (EVLIS (CDR M) A))))))
+ ; APPLY
  (QUOTE (LAMBDA (FN X A)
           (COND
             ((ATOM FN)
@@ -39,6 +44,7 @@ INSERT_TEST_DATA_HERE
             ((EQ (CAR FN) (QUOTE LAMBDA))
              (EVAL (CAR (CDR (CDR FN)))
                    (PAIRLIS (CAR (CDR FN)) X A))))))
+ ; EVAL
  (QUOTE (LAMBDA (E A)
           (COND
             ((ATOM E) (ASSOC E A))

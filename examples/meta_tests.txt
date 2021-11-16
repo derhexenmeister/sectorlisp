@@ -1,5 +1,9 @@
 file: metacircular/lisp.lisp 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; We start with some sanity checking of the building blocks from
+;; the sectorlisp documentation in lisp.lisp
+
 ;; NIL ATOM
 ;; ABSENCE OF VALUE AND TRUTH
 input: NIL
@@ -36,6 +40,196 @@ output: T
 
 input: (EQ (QUOTE T) (QUOTE F))
 output: NIL
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Here we test the functions used to build EVAL. The motivation
+;; is to understand them via simple standalone examples are explored.
+
+;;;;;
+;; ASSOC
+;;
+;; "The ASSOC function of LISP 1 returned the value associated with a
+;;  given key instead of the pair associating the key with the value,
+;;  so ASSOC could be used to map atoms directly to their corresponding
+;;  values"
+;;
+;; "The environment is a list of pairs, as described above, suitable
+;;  for submitting it to ASSOC. It supplies an initial set of bindings
+;;  from atoms (symbols) to values."
+;;
+;;  Nils Holm "Lisp from Nothing" (http://t3x.org/lfn/)
+;;  (these quotes are available in the preview lfn-preview.pdf)
+;;
+;; "assoc[x; a]
+;;  If a is an association list such as the one formed by pairlis in the
+;;  above example, then assoc will produce the first pair whose first
+;;  term is x. Thus it is a table searching function.
+;;
+;;  We have:
+;;    assoc[x;a] = [equal[caar[a];x] -> car[a];T->assoc[x;cdr[a]]]
+;;
+;;  An example is:
+;;    assoc[B;((A . (M N)), (B . (CAR X)), (C . (QUOTE M)),(C . (CDR X)))] = (B . (CAR X)"
+;;
+;; LISP 1.5 Programmer's Manual, page 12
+;; The Computation Center and Research Laboratory of Electronics
+;; Massachusetts Institute of Technology
+;;
+
+;;;;;
+;; EVCON
+;;
+;; "The EVCON and EVLIS functions used by EVAL implemented the evaluation
+;;  of the COND special for m and the evaluation of argument lists in
+;;  function applications, respectively."
+;;
+;;  Nils Holm "Lisp from Nothing" (http://t3x.org/lfn/)
+;;  (this quote is in the preview lfn-preview.pdf)
+;;
+;; "evcon[c; a] = [eval[caar[c];a] -> eval[cadar[c];a];
+;;                T -> evcon[cdr[c];a]]"
+;;
+;; LISP 1.5 Programmer's Manual, page 13
+;;
+;; "If car of the form is COND, then it is a conditional expression,
+;; and evcon evaluates the propositional terms in order, and choses
+;; the form following the first true predicate."
+;;
+;; LISP 1.5 Programmer's Manual, page 14
+;;
+;; "COND, for example, has a very special way of evaluating its arguments
+;;  by using evcon"
+;;
+;; LISP 1.5 Programmer's Manual, page 18-19
+
+;;;;;
+;; PAIRLIS
+;;
+;; "pairlis[x;y;a]
+;;  This function gives the list of pairs of corresponding elements of
+;;  the lists x and y, and appends this to the list a. The resultant list
+;;  of pairs, which is like a table with two columns, is called an
+;;  association list.
+;;
+;;  We have:
+;;    pairlis[x;y;a] = [null[x]--a; T-cons[cons[car[x]; car[y]]; pairlis[cdr[x]; cdr[y]; a]]]
+;;
+;;  An example is:
+;;    pairlis[(A B C);(U V W);((D . X) (E . Y))] = ((A . U) (B . V) (C . W)(D . X) (E . Y))"
+;;
+;; LISP 1.5 Programmer's Manual, pages 11-12
+;;
+
+;;;;;
+;; EVLIS
+;;
+;; "The EVCON and EVLIS functions used by EVAL implemented the evaluation
+;;  of the COND special for m and the evaluation of argument lists in
+;;  function applications, respectively."
+;;
+;;  Nils Holm "Lisp from Nothing" (http://t3x.org/lfn/)
+;;  (this quote is in the preview lfn-preview.pdf)
+;;
+;; "evlis[m;a] = [null[m] -> NIL;
+;;              T -> cons[eval[car[m];a];evlis[cdr [m];a]]]"
+;;
+;; LISP 1.5 Programmer's Manual, page 13
+;;
+
+;;;;;
+;; APPLY
+;;
+;; "apply handles a function and its arguments, while eval handles forms.
+;; Each of these functions also has another argument that is used as an
+;; association list for storing the values of bound variables and function
+;; names.
+;;
+;; ...
+;;
+;;  apply[fn;x;a] = 
+;;    [atom[fn] -> [eq[fn;CAR]  -> caar[x];
+;;                  eq[fn;CDR]  -> cdar[x];
+;;                  eq[fn;CONS] -> cons[car[x]; cadr[x]];
+;;                  eq[fn;ATOM] -> atom[car[x]];
+;;                  eq[fn;EQ]   -> eq[car[x]; cadr[x]];
+;;                  T           -> apply[eval[fn;a];x;a]];
+;;     eq[car[fn];LAMBDA] -> eval[caddr [fn];pairlis[cadr[fn];x;a]];
+;;     eq[car[fn];LABEL] ->  apply[caddr[fn];x;cons[cons[cadr[fn];
+;;                                            caddr[fn]];a]]]"
+;; LISP 1.5 Programmer's Manual, page 13
+;;
+;; "The first argument for apply is a function. If it is an atomic
+;;  symbol, then there are two possibilities. One is that it is an
+;;  elementary function: car, cdr, cons, eq, or atom. In each case, the
+;;  appropriate function is applied to the argument(s). If it is not
+;;  one of these, then its meaning has to be looked up in the association
+;;  list.
+;;
+;;  If it begins with LAMBDA, then the arguments are paired with the
+;;  bound variables, and the form is given to eval to evaluate.
+;;
+;;  If it begins with LABEL, then the function name and definition are
+;;  added to the association list, and the inside function is evaluated
+;;  by apply."
+;;
+;; LISP 1.5 Programmer's Manual, page 14
+;;
+;;  Notes:
+;;    The comment about LABEL does not apply to this implementation.
+
+;;;;;
+;; EVAL
+;;
+;; "apply handles a function and its arguments, while eval handles forms.
+;; Each of these functions also has another argument that is used as an
+;; association list for storing the values of bound variables and function
+;; names.
+;;
+;; ...
+;;
+;; eval[e;a] = [atom[e] -> cdr[assoc[e;a]];
+;;       atom[car[e]] ->
+;;           [eq[car[e];QUOTE] -> cadr[e];
+;;            eq[car[e];COND]  -> evcon[cdr[e];a];
+;;            T -> apply[car[e];evlis[cdr[e];a];a]];
+;;       T -> apply[car[e];evlis[cdr[e];a];a]]
+;;
+;; LISP 1.5 Programmer's Manual, page 13
+;;
+;; "The first argument of eval is a form. If it is atomic, then it must be a
+;;  variable, and its value is looked up on the association list.
+;;
+;;  If car of the form is QUOTE, then it is a constant, and the value is
+;;  cadr of the form itself.
+;;
+;;  If car of the form is COND, then it is a conditional expression, and
+;;  evcon evaluates the propositional terms in order, and choses the form
+;;  following the first true predicate.
+;;
+;;  In all other cases, the form must be a function followed by its
+;;  arguments. The arguments are then evaluated, and the function is
+;;  given to apply."
+;; LISP 1.5 Programmer's Manual, page 14
+;;
+;; "Special Forms
+;;  Normally, eval evaluates the arguments of a function before applying
+;;  the function itself. Thus if =l is given (CONSX Y), it will evaluate
+;;  X and Y, and then cons them. But if eval is given (QUOTE X), X should
+;;  not be evaluated. QUOTE is a special form that prevents its argument
+;;  from being evaluated.
+;;
+;;  A special form differs from a function in two ways. Its arguments
+;;  are not evaluated before the special form sees them. COND, for example,
+;;  has a very special way of evaluating its arguments by using evcon.
+;;  The second way which special forms differ from functions is that they
+;;  may have an indefinite number of arguments."
+;;
+;; LISP 1.5 Programmer's Manual, page 18
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; This is the minimal program used to test the metacircular
+;; evaluator. We run it twice. First in the C-based LISP, and then
+;; via the metacirculator evaluator.
 
 ;; FIND FIRST ATOM IN TREE
 ;; CORRECT RESULT OF EXPRESSION IS `A`
