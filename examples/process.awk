@@ -2,7 +2,7 @@
 # Usage: awk -f process.awk < tls_tests.txt
 #
 BEGIN {
-	DEBUG = 1
+	DEBUG = 0
 	TEMPLISP = "program.lisp"
 	INPUT_LABEL = "INSERT_TEST_DATA_HERE"
 	LISPCMD = "../lisp"
