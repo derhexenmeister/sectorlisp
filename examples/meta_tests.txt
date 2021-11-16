@@ -12,7 +12,7 @@ output: NIL
 ;; CONS CELL
 ;; BUILDING BLOCK OF DATA STRUCTURES
 input: (CONS NIL NIL)
-output: (NIL∙NIL)
+output: (NIL)
 
 input: (CONS (QUOTE X) (QUOTE Y))
 output: (X∙Y)
@@ -28,10 +28,10 @@ output: NIL
 ;; QUOTING
 ;; CODE IS DATA AND DATA IS CODE
 input: (QUOTE (CONS NIL NIL))
-output: (CONS NIL NIL∙NIL)
+output: (CONS NIL NIL)
 
 input: (CONS (QUOTE CONS) (CONS NIL (CONS NIL NIL)))
-output: (CONS NIL NIL∙NIL)
+output: (CONS NIL NIL)
 
 ;; LOGIC
 ;; BY WAY OF STRING INTERNING
@@ -79,7 +79,7 @@ output: NIL
 ;; Let's make a simple association list by hand
 ;;
 input: (CONS (CONS (QUOTE A) (QUOTE 1)) (CONS (CONS (QUOTE B) (QUOTE 2)) (CONS (CONS (QUOTE C) (QUOTE 3)) NIL)))
-output: ((A∙1) (B∙2) (C∙3)∙NIL)
+output: ((A∙1) (B∙2) (C∙3))
 
 ;; We can lookup values in it
 input: (ASSOC (QUOTE A) (CONS (CONS (QUOTE A) (QUOTE 1)) (CONS (CONS (QUOTE B) (QUOTE 2)) (CONS (CONS (QUOTE C) (QUOTE 3)) NIL))))
@@ -92,7 +92,7 @@ output: 3
 ;; We can also use PAIRLIS to create the association list
 ;;
 input: (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ())
-output: ((X∙24) (Y∙25) (Z∙26)∙NIL)
+output: ((X∙24) (Y∙25) (Z∙26))
 
 input: (ASSOC (QUOTE X) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ()))
 output: 24
@@ -161,18 +161,18 @@ output: NIL
 ;;
 ;; The we will see PAIRLIS called with:
 ;;
-;;   Pairlis x> (CONS3 X Y Z∙NIL)
-;;   Pairlis y> ((LAMBDA (L∙NIL) (CONS X (CONS Y Z∙NIL)∙NIL)∙NIL) A B C∙NIL)
+;;   Pairlis x> (CONS3 X Y Z)
+;;   Pairlis y> ((LAMBDA (L) (CONS X (CONS Y Z))) A B C)
 ;;   Pairlis a> NIL
 ;;
 ;; And then the more obvious looking recursion:
-;;   Pairlis x> (X Y Z∙NIL)
-;;   Pairlis y> (A B C∙NIL)
+;;   Pairlis x> (X Y Z)
+;;   Pairlis y> (A B C)
 ;;   Pairlis a> NIL
 ;;
 ;; This results in:
 ;;
-;;   Pairlis recursion returned si> ((X∙A) (Y∙B) (Z∙C)∙NIL)
+;;   Pairlis recursion returned si> ((X∙A) (Y∙B) (Z∙C))
 ;;
 ;; Where the arguments are paired with their values.
 ;;
@@ -180,10 +180,10 @@ input: (PAIRLIS () () ())
 output: NIL
 
 input: (PAIRLIS () () (QUOTE (A B C)))
-output: (A B C∙NIL)
+output: (A B C)
 
 input: (PAIRLIS (QUOTE (A)) (QUOTE (B)) ())
-output: ((A∙B)∙NIL)
+output: ((A∙B))
 
 ;; Now a simple example where we want to create some pairs in two
 ;; steps
@@ -192,17 +192,24 @@ output: ((A∙B)∙NIL)
 ;; n o p q r s : Values
 
 input: (PAIRLIS (QUOTE (A B C)) (QUOTE (N O P)) ())
-output: ((A∙N) (B∙O) (C∙P)∙NIL)
+output: ((A∙N) (B∙O) (C∙P))
 
 ;; TODO: Not sure how to create A in the correct format without
 ;; a lot of CONSing
 ;;
+input: (CONS (CONS (QUOTE C) (QUOTE P)) NIL)
+output: ((C∙P))
+input: (CONS (CONS (QUOTE B) (QUOTE O)) (CONS (CONS (QUOTE C) (QUOTE P)) NIL))
+output: ((B∙O) (C∙P))
+input: (CONS (CONS (QUOTE A) (QUOTE N)) (CONS (CONS (QUOTE B) (QUOTE O)) (CONS (CONS (QUOTE C) (QUOTE P)) NIL)))
+output: ((A∙N) (B∙O) (C∙P))
+
 input: (PAIRLIS (QUOTE (D E F)) (QUOTE (Q R S)) (CONS (CONS (QUOTE A) (QUOTE N)) (CONS (CONS (QUOTE B) (QUOTE O)) (CONS (CONS (QUOTE C) (QUOTE P)) NIL))))
-output: ((D∙Q) (E∙R) (F∙S) (A∙N) (B∙O) (C∙P)∙NIL)
+output: ((D∙Q) (E∙R) (F∙S) (A∙N) (B∙O) (C∙P))
 
 ;; We can also create the above with PAIRLIS
 input: (PAIRLIS (QUOTE (D E F)) (QUOTE (Q R S)) (PAIRLIS (QUOTE (A B C)) (QUOTE (N O P)) ()))
-output: ((D∙Q) (E∙R) (F∙S) (A∙N) (B∙O) (C∙P)∙NIL)
+output: ((D∙Q) (E∙R) (F∙S) (A∙N) (B∙O) (C∙P))
 
 ;;;;;
 ;; EVLIS

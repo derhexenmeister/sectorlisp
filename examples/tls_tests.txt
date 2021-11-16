@@ -29,81 +29,81 @@ output: NIL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 file: tls/chapter3/rember.lisp 
 input: (QUOTE rice) (QUOTE (white rice and fried rice and brown rice and rice cakes))
-output: (white and fried rice and brown rice and rice cakes∙NIL)
+output: (white and fried rice and brown rice and rice cakes)
 
 input: (QUOTE white) (QUOTE (white rice and fried rice and brown rice and rice cakes))
-output: (rice and fried rice and brown rice and rice cakes∙NIL)
+output: (rice and fried rice and brown rice and rice cakes)
 
 input: (QUOTE cakes) (QUOTE (white rice and fried rice and brown rice and rice cakes))
-output: (white rice and fried rice and brown rice and rice∙NIL)
+output: (white rice and fried rice and brown rice and rice)
 
 input: (QUOTE chocolate) (QUOTE (white rice and fried rice and brown rice and rice cakes))
-output: (white rice and fried rice and brown rice and rice cakes∙NIL)
+output: (white rice and fried rice and brown rice and rice cakes)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 file: tls/chapter3/firsts.lisp 
 input: (QUOTE ((c a) (a b) (t u)))
-output: (c a t∙NIL)
+output: (c a t)
 
 input: (QUOTE (((c) (a)) ((a) (b)) ((t) (u))))
-output: ((c∙NIL) (a∙NIL) (t∙NIL)∙NIL)
+output: ((c) (a) (t))
 
 input: (QUOTE ((c)))
-output: (c∙NIL)
+output: (c)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 file: tls/chapter3/insertR.lisp 
 input: (QUOTE sliced) (QUOTE and) (QUOTE (mango pudding and mango))
-output: (mango pudding and sliced mango∙NIL)
+output: (mango pudding and sliced mango)
 
 input: (QUOTE cream) (QUOTE ice) (QUOTE (mango pudding and vanilla ice))
-output: (mango pudding and vanilla ice cream∙NIL)
+output: (mango pudding and vanilla ice cream)
 
 input: (QUOTE mango) (QUOTE thai) (QUOTE (thai coconut pudding and thai iced tea))
-output: (thai mango coconut pudding and thai iced tea∙NIL)
+output: (thai mango coconut pudding and thai iced tea)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 file: tls/chapter3/insertL.lisp 
 input: (QUOTE thai) (QUOTE mango) (QUOTE (mango pudding and fresh mango))
-output: (thai mango pudding and fresh mango∙NIL)
+output: (thai mango pudding and fresh mango)
 
 input: (QUOTE sugar) (QUOTE cookies) (QUOTE (fresh fruit and cookies))
-output: (fresh fruit and sugar cookies∙NIL)
+output: (fresh fruit and sugar cookies)
 
 input: (QUOTE breakfast) (QUOTE tea) (QUOTE (tea))
-output: (breakfast tea∙NIL)
+output: (breakfast tea)
 
 input: (QUOTE hot) (QUOTE breakfast) (QUOTE (breakfast tea and iced tea))
-output: (hot breakfast tea and iced tea∙NIL)
+output: (hot breakfast tea and iced tea)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 file: tls/chapter3/subst.lisp 
 input: (QUOTE tea) (QUOTE coffee) (QUOTE (breakfast coffee and iced tea))
-output: (breakfast tea and iced tea∙NIL)
+output: (breakfast tea and iced tea)
 
 ; When new doesn't exist do nothing
 input: (QUOTE tea) (QUOTE latte) (QUOTE (breakfast coffee and iced tea))
-output: (breakfast coffee and iced tea∙NIL)
+output: (breakfast coffee and iced tea)
 
 ; First item in list
 input: (QUOTE afternoon) (QUOTE breakfast) (QUOTE (breakfast coffee and iced tea))
-output: (afternoon coffee and iced tea∙NIL)
+output: (afternoon coffee and iced tea)
 
 ; Last item in list
 input: (QUOTE coffee) (QUOTE tea) (QUOTE (hot breakfast coffee and iced tea))
-output: (hot breakfast coffee and iced coffee∙NIL)
+output: (hot breakfast coffee and iced coffee)
 
 ; Only the first match
 input: (QUOTE milk) (QUOTE coffee) (QUOTE (coffee and iced coffee))
-output: (milk and iced coffee∙NIL)
+output: (milk and iced coffee)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 file: tls/chapter3/subst2.lisp 
 input: (SUBST2 (QUOTE vanilla) (QUOTE banana) (QUOTE durian) (QUOTE (banana frozen yogurt with popping boba)))
-output: (vanilla frozen yogurt with popping boba∙NIL)
+output: (vanilla frozen yogurt with popping boba)
 
 input: (SUBST2 (QUOTE vanilla) (QUOTE banana) (QUOTE durian) (QUOTE (durian frozen yogurt with popping boba)))
-output: (vanilla frozen yogurt with popping boba∙NIL)
+output: (vanilla frozen yogurt with popping boba)
 
 ; TODO - insert multi versions
 
@@ -111,48 +111,48 @@ output: (vanilla frozen yogurt with popping boba∙NIL)
 ; Represent numbers with lists for simplicity
 ; bc can be used to check the answers during test development
 ;
-; $ echo "(1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0∙NIL)" | awk '{gsub("∙NIL", "");print}' | bc
+; $ echo "(1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0)" | bc
 ; 20
 ;
 file: tls/chapter4/numbers.lisp 
 ; Constants
 input: ZERO
-output: (0∙NIL)
+output: (0)
 
 input: ONE
-output: (1+ 0∙NIL)
+output: (1+ 0)
 
 input: TWO
-output:  (1+ 1+ 0∙NIL)
+output:  (1+ 1+ 0)
 
 input: THREE
-output: (1+ 1+ 1+ 0∙NIL)
+output: (1+ 1+ 1+ 0)
 
 input: FOUR
-output: (1+ 1+ 1+ 1+ 0∙NIL)
+output: (1+ 1+ 1+ 1+ 0)
 
 input: FIVE
-output: (1+ 1+ 1+ 1+ 1+ 0∙NIL)
+output: (1+ 1+ 1+ 1+ 1+ 0)
 
 ; Incrementing by one
 input: (ADD1 ZERO)
-output: (1+ 0∙NIL)
+output: (1+ 0)
 
 ; Decrementing by one
 input: (SUB1 FIVE)
-output: (1+ 1+ 1+ 1+ 0∙NIL)
+output: (1+ 1+ 1+ 1+ 0)
 
 ; Adding two numbers
 input: (+ FOUR FIVE)
-output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0∙NIL)
+output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0)
 
 ; Subtracting two numbers
 input: (- FIVE FOUR)
-output: (1+ 0∙NIL)
+output: (1+ 0)
 
 ; Nested addition and subtraction
 input: (- FIVE (+ FOUR ONE))
-output: (0∙NIL)
+output: (0)
 
 ; Nested plus check for zero
 input: (ZERO? (- FIVE (+ FOUR ONE)))
@@ -160,14 +160,14 @@ output: T
 
 ; Multiplying two numbers
 input: (* FIVE FOUR)
-output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0∙NIL)
+output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0)
 
 ; Sanity check multiplication by zero
 input: (* FIVE ZERO)
-output: (0∙NIL)
+output: (0)
 
 input: (* ZERO FIVE)
-output: (0∙NIL)
+output: (0)
 
 ; Checking for zero
 input: (ZERO? ZERO)
@@ -179,11 +179,11 @@ output: NIL
 ; Adding tuples of numbers
 ; TODO - can't use symbolic input?
 input: (ADDTUP (QUOTE ((1+ 0) (1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))))
-output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0∙NIL)
+output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0)
 
 ; Only one number in tuple
 input: (ADDTUP (QUOTE ((0))))
-output: (0∙NIL)
+output: (0)
 
 input: (ADDTUP (QUOTE ((1+ 0))))
-output: (1+ 0∙NIL)
+output: (1+ 0)

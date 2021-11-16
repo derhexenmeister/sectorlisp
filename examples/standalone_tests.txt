@@ -22,7 +22,7 @@ output: B
 
 ; However A∙B is one symbol, the bullet has no special significance for input
 input: (QUOTE (A∙B))
-output: (A∙B∙NIL)
+output: (A∙B)
 
 input: (CAR (QUOTE (A∙B)))
 output: A∙B
@@ -34,7 +34,7 @@ input: (CAR (QUOTE (A∙B C)))
 output: A∙B
 
 input: (CDR (QUOTE (A∙B C)))
-output: (C∙NIL)
+output: (C)
 
 ; Now onto longer lists
 
@@ -44,16 +44,16 @@ input: (QUOTE ((A . B) (C . D)))
 output: NIL
 
 ; This doesn't work either (had to try)
-input: (QUOTE ((A . B) . (C . D) . NIL))
-output: ((A∙B)∙NIL)
-output: NIL
-output: NIL
-output: NIL
+;input: (QUOTE ((A . B) . (C . D) . NIL))
+;output: ((A∙B)∙NIL)
+;output: NIL
+;output: NIL
+;output: NIL
 
 ; We can cons the above though
 input: (CONS (CONS (QUOTE A) (QUOTE B)) (CONS (CONS (QUOTE C) (QUOTE D)) NIL))
-output: ((A∙B) (C∙D)∙NIL)
+output: ((A∙B) (C∙D))
 
 ; And again - is there an easier method?
 input: (CONS (CONS (QUOTE A) (QUOTE B)) (CONS (CONS (QUOTE C) (QUOTE D)) (CONS (CONS (QUOTE E) (QUOTE F)) NIL)))
-output: ((A∙B) (C∙D) (E∙F)∙NIL)
+output: ((A∙B) (C∙D) (E∙F))
