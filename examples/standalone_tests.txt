@@ -1,0 +1,59 @@
+file: empty.lisp
+
+input: (CONS (QUOTE A) (QUOTE B))
+output: (A∙B)
+
+; And we can use .
+input: (QUOTE (A . B))
+output: (A∙B)
+
+; CAR and CDR work for either input format
+input: (CAR (CONS (QUOTE A) (QUOTE B)))
+output: A
+
+input: (CDR (CONS (QUOTE A) (QUOTE B)))
+output: B
+
+input: (CAR (QUOTE (A . B)))
+output: A
+
+input: (CDR (QUOTE (A . B)))
+output: B
+
+; However A∙B is one symbol, the bullet has no special significance for input
+input: (QUOTE (A∙B))
+output: (A∙B∙NIL)
+
+input: (CAR (QUOTE (A∙B)))
+output: A∙B
+
+input: (CDR (QUOTE (A∙B)))
+output: NIL
+
+input: (CAR (QUOTE (A∙B C)))
+output: A∙B
+
+input: (CDR (QUOTE (A∙B C)))
+output: (C∙NIL)
+
+; Now onto longer lists
+
+; This doesn't work, and outputs two lines
+input: (QUOTE ((A . B) (C . D)))
+;output: ((A∙B)∙NIL)
+output: NIL
+
+; This doesn't work either (had to try)
+input: (QUOTE ((A . B) . (C . D) . NIL))
+output: ((A∙B)∙NIL)
+output: NIL
+output: NIL
+output: NIL
+
+; We can cons the above though
+input: (CONS (CONS (QUOTE A) (QUOTE B)) (CONS (CONS (QUOTE C) (QUOTE D)) NIL))
+output: ((A∙B) (C∙D)∙NIL)
+
+; And again - is there an easier method?
+input: (CONS (CONS (QUOTE A) (QUOTE B)) (CONS (CONS (QUOTE C) (QUOTE D)) (CONS (CONS (QUOTE E) (QUOTE F)) NIL)))
+output: ((A∙B) (C∙D) (E∙F)∙NIL)
