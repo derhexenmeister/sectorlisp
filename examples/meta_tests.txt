@@ -76,6 +76,38 @@ output: NIL
 ;; Massachusetts Institute of Technology
 ;;
 
+;; Let's make a simple association list by hand
+;;
+input: (CONS (CONS (QUOTE A) (QUOTE 1)) (CONS (CONS (QUOTE B) (QUOTE 2)) (CONS (CONS (QUOTE C) (QUOTE 3)) NIL)))
+output: ((A∙1) (B∙2) (C∙3)∙NIL)
+
+;; We can lookup values in it
+input: (ASSOC (QUOTE A) (CONS (CONS (QUOTE A) (QUOTE 1)) (CONS (CONS (QUOTE B) (QUOTE 2)) (CONS (CONS (QUOTE C) (QUOTE 3)) NIL))))
+output: 1
+input: (ASSOC (QUOTE B) (CONS (CONS (QUOTE A) (QUOTE 1)) (CONS (CONS (QUOTE B) (QUOTE 2)) (CONS (CONS (QUOTE C) (QUOTE 3)) NIL))))
+output: 2
+input: (ASSOC (QUOTE C) (CONS (CONS (QUOTE A) (QUOTE 1)) (CONS (CONS (QUOTE B) (QUOTE 2)) (CONS (CONS (QUOTE C) (QUOTE 3)) NIL))))
+output: 3
+
+;; We can also use PAIRLIS to create the association list
+;;
+input: (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ())
+output: ((X∙24) (Y∙25) (Z∙26)∙NIL)
+
+input: (ASSOC (QUOTE X) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ()))
+output: 24
+
+input: (ASSOC (QUOTE Y) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ()))
+output: 25
+
+input: (ASSOC (QUOTE Z) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ()))
+output: 26
+
+;; For anything not in the association list -> NIL
+;;
+input: (ASSOC (QUOTE OOPS) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ()))
+output: NIL
+
 ;;;;;
 ;; EVCON
 ;;
