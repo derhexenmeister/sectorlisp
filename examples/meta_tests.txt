@@ -134,6 +134,14 @@ output: NIL
 ;;
 ;; LISP 1.5 Programmer's Manual, page 18-19
 
+;; (EVCON C A)
+;;
+input: (EVCON (QUOTE (((EQ (QUOTE A) (QUOTE A)) (QUOTE TRUE))) NIL))
+output: TRUE
+
+input: (EVCON (QUOTE (((EQ (QUOTE A) (QUOTE B)) (QUOTE TRUE)) ((QUOTE T) (QUOTE FALSE))) NIL))
+output: FALSE
+
 ;;;;;
 ;; PAIRLIS
 ;;
@@ -267,6 +275,17 @@ output: ((D∙Q) (E∙R) (F∙S) (A∙N) (B∙O) (C∙P))
 ;;
 ;;  Notes:
 ;;    The comment about LABEL does not apply to this implementation.
+
+;; (APPLY FN X A)
+;;
+input: (APPLY (QUOTE EQ) (QUOTE (A A)) NIL)
+output: T
+
+input: (APPLY (QUOTE EQ) (QUOTE (A B)) NIL)
+output: NIL
+
+input: (APPLY (QUOTE (LAMBDA (L) (CONS 'MY L))) (QUOTE ((LITTLE PONY))) NIL)
+output: (MY LITTLE PONY)
 
 ;;;;;
 ;; EVAL
