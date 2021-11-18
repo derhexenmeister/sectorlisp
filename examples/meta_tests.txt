@@ -336,6 +336,27 @@ output: (MY LITTLE PONY)
 ;;
 ;; LISP 1.5 Programmer's Manual, page 18
 
+;; (EVAL E A)
+
+;; Simple demonstation of the environment
+;;
+input: (EVAL (QUOTE A) (PAIRLIS (QUOTE (A B C)) (QUOTE (APPLE BANANA CARROT))))
+output: APPLE
+
+input: (EVAL (QUOTE B) (PAIRLIS (QUOTE (A B C)) (QUOTE (APPLE BANANA CARROT))))
+output: BANANA
+
+input: (EVAL (QUOTE C) (PAIRLIS (QUOTE (A B C)) (QUOTE (APPLE BANANA CARROT))))
+output: CARROT
+
+;; Quotes are simple
+;;
+input: (EVAL (QUOTE (QUOTE SHAZAM)) ())
+output: SHAZAM
+
+input: (EVAL (QUOTE (QUOTE (ALPHA BETA GAMMA))) ())
+output: (ALPHA BETA GAMMA)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; This is the minimal program used to test the metacircular
 ;; evaluator. We run it twice. First in the C-based LISP, and then
