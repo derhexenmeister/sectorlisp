@@ -10,7 +10,7 @@ BEGIN {
 	# e.g. -v DEBUG=1
 	#DEBUG = 1
 
-	MAXERRS = 1
+	MAXERRS = 10
 
 	METACIRCULAR = "metacircular/lisp.lisp"
 	TEMPLISP = "program.lisp"
@@ -95,7 +95,7 @@ function process(file, input, output,    first, line, actual) {
 		cmd = LISPCMD "< " TEMPLISPMETA
 		while ((getline line < METACIRCULAR) > 0) {
 			# Drop comments
-			sub(/;.+$/, "", line)
+			sub(/;.*$/, "", line)
 
 			# Embed the preprocessed program into
 			# the metacircular interpreter
