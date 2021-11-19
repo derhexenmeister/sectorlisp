@@ -71,7 +71,7 @@ function process(file, input, output,    first, line, actual) {
 	# Create an input file for piping into lisp
 	while ((getline line < file) > 0) {
 		# Drop comments
-		sub(/;.+$/, "", line)
+		sub(/;.*$/, "", line)
 
 		# Replace tag with desired input data
 		gsub(INPUT_LABEL, input, line)
