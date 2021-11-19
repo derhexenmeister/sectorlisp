@@ -1,0 +1,4 @@
+file: metacircular/ff.lisp 
+
+input: (QUOTE ((A) B C))
+output: A
