@@ -64,7 +64,7 @@ function process(file, input, output,    first, line, actual) {
 		print "process: input = " input
 		print "process: output = " output
 		if (RUNMETACIRCULAR) {
-			print "process: embedding in metacircular interpreter"
+			print "process: embedding in metacircular evaluator"
 		}
 	}
 
@@ -89,7 +89,7 @@ function process(file, input, output,    first, line, actual) {
 	close(TEMPLISP)
 
 	# Now we can optionally insert the test program into the
-	# metacircular interpreter
+	# metacircular evaluator
 	first = 1
 	if (RUNMETACIRCULAR) {
 		cmd = LISPCMD "< " TEMPLISPMETA
@@ -98,7 +98,7 @@ function process(file, input, output,    first, line, actual) {
 			sub(/;.*$/, "", line)
 
 			# Embed the preprocessed program into
-			# the metacircular interpreter
+			# the metacircular evaluator
 			# (This should never be the first line)
 			if (index(line, INPUT_LABEL)) {
 				# Wrap the program in an EVAL
