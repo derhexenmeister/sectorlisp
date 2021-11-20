@@ -7,6 +7,7 @@ awk -f process.awk \
        	-v TEMPLISPMETAFMT="preprocessed/ff/program_meta%d.lisp" \
 	< ff.txt
 
+echo "----------------------------------------------------------------------"
 echo "Running ff embedded in metacircular evaluator"
 awk -f process.awk \
 	-v RUNMETACIRCULAR=1 \
@@ -21,6 +22,7 @@ awk -f process.awk \
        	-v TEMPLISPMETAFMT="preprocessed/standalone/program_meta%d.lisp" \
 	< standalone_tests.txt
 
+echo "----------------------------------------------------------------------"
 echo "Running standalone_tests embedded in metacircular evaluator"
 awk -f process.awk \
 	-v RUNMETACIRCULAR=1 \
@@ -35,6 +37,7 @@ awk -f process.awk \
        	-v TEMPLISPMETAFMT="preprocessed/tls/program_meta%d.lisp" \
        	< tls_tests.txt
 
+echo "----------------------------------------------------------------------"
 echo "Running tls_tests embedded in metacircular evaluator"
 awk -f process.awk \
 	-v RUNMETACIRCULAR=1 \

@@ -27,7 +27,7 @@ BEGIN {
 	# can use default values
 	#
 	if (!MAXERRS) {
-		MAXERRS = 1
+		MAXERRS = 100
 	}
 
 	if (!TEMPLISPFMT) {
@@ -40,10 +40,10 @@ BEGIN {
 
 END {
 	if (ERRORCNT == 0) {
-		print "PASSED: Ran " TESTCNT " test cases with no errors"
+		print "PASSED: Ran " TESTCNT " test case(s) with no errors"
 	}
 	else {
-		print "FAILED: Ran " TESTCNT " test cases with " ERRORCNT " errors"
+		print "FAILED: Ran " TESTCNT " test case(s) with " ERRORCNT " error(s)"
 	}
 }
 
@@ -107,7 +107,7 @@ function process(file, input, output,    first, line, actual) {
 	templispmeta = sprintf(TEMPLISPMETAFMT, TESTCNT)
 	first = 1
 	if (RUNMETACIRCULAR) {
-		cmd = LISPCMD "< " templispmeta
+		cmd = LISPCMD " < " templispmeta
 		while ((getline line < METACIRCULAR) > 0) {
 			# Drop comments
 			sub(/;.*$/, "", line)
@@ -139,7 +139,7 @@ function process(file, input, output,    first, line, actual) {
 		close(templispmeta)
 	}
 	else {
-		cmd = LISPCMD "< " templisp
+		cmd = LISPCMD " < " templisp
 	}
 
 	# Run lisp and capture the last line of output
@@ -158,7 +158,9 @@ function process(file, input, output,    first, line, actual) {
 	close(cmd)
 	if (actual != output) {
 		ERRORCNT = ERRORCNT + 1
-		print ERRORSTR "processing file = " file
+		print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+		print ERRORSTR "Processing input file = " file
+		print ERRORSTR "Command = " cmd
 		print ERRORSTR "input data = " input
 		print ERRORSTR "expected output = " output
 		print ERRORSTR "actual output = " actual
