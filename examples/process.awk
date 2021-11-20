@@ -2,19 +2,10 @@
 # Usage: awk -f process.awk < tls_tests.txt
 #
 BEGIN {
-	# Set this on the command line
-	# e.g. -v RUNMETACIRCULAR=1
-	#RUNMETACIRCULAR = 1
-
-	# Set this on the command line
-	# e.g. -v DEBUG=1
-	#DEBUG = 1
-
-	MAXERRS = 10
-
+	# A slightly customized version of the project's
+	# metacircular evaluatior (only formatting changes)
+	#
 	METACIRCULAR = "metacircular/lisp.lisp"
-	TEMPLISP = "program.lisp"
-	TEMPLISPMETA = "program_meta.lisp"
 
 	INPUT_LABEL = "INSERT_TEST_DATA_HERE"
 
@@ -23,6 +14,28 @@ BEGIN {
 	ERRORSTR = "ERROR:"
 	TESTCNT = 0
 	ERRORCNT = 0
+
+	# Set this on the command line
+	# e.g. -v RUNMETACIRCULAR=1
+	#RUNMETACIRCULAR = 1
+
+	# Set this on the command line
+	# e.g. -v DEBUG=1
+	#DEBUG = 1
+
+	# The following parameters can be set on the command line or
+	# can use default values
+	#
+	if (!MAXERRS) {
+		MAXERRS = 1
+	}
+
+	if (!TEMPLISPFMT) {
+		TEMPLISPFMT = "preprocessed/program%d.lisp"
+	}
+	if (!TEMPLISPMETAFMT) {
+		TEMPLISPMETAFMT = "preprocessed/program_meta%d.lisp"
+	}
 }
 
 END {
@@ -56,6 +69,7 @@ END {
 
 function process(file, input, output,    first, line, actual) {
 	TESTCNT = TESTCNT + 1
+	templisp = sprintf(TEMPLISPFMT, TESTCNT)
 	first = 1
 	if (DEBUG) {
 		print "=========="
@@ -77,22 +91,23 @@ function process(file, input, output,    first, line, actual) {
 		gsub(INPUT_LABEL, input, line)
 		if (line != "") {
 			if (first) {
-				print line > TEMPLISP
+				print line > templisp
 				first = 0
 			}
 			else {
-				print line >> TEMPLISP
+				print line >> templisp
 			}
 		}
 	}
 	close(file)
-	close(TEMPLISP)
+	close(templisp)
 
 	# Now we can optionally insert the test program into the
 	# metacircular evaluator
+	templispmeta = sprintf(TEMPLISPMETAFMT, TESTCNT)
 	first = 1
 	if (RUNMETACIRCULAR) {
-		cmd = LISPCMD "< " TEMPLISPMETA
+		cmd = LISPCMD "< " templispmeta
 		while ((getline line < METACIRCULAR) > 0) {
 			# Drop comments
 			sub(/;.*$/, "", line)
@@ -102,29 +117,29 @@ function process(file, input, output,    first, line, actual) {
 			# (This should never be the first line)
 			if (index(line, INPUT_LABEL)) {
 				# Wrap the program in an EVAL
-				print "(EVAL (QUOTE" >> TEMPLISPMETA
-				while ((getline line < TEMPLISP) > 0) {
-					print line >> TEMPLISPMETA
+				print "(EVAL (QUOTE" >> templispmeta
+				while ((getline line < templisp) > 0) {
+					print line >> templispmeta
 				}
-				close(TEMPLISP)
+				close(templisp)
 				# End of wrapping the program in an EVAL
-				print ")())" >> TEMPLISPMETA
+				print ")())" >> templispmeta
 			}
 			else if (line != "") {
 				if (first) {
-					print line > TEMPLISPMETA
+					print line > templispmeta
 					first = 0
 				}
 				else {
-					print line >> TEMPLISPMETA
+					print line >> templispmeta
 				}
 			}
 		}
 		close(METACIRCULAR)
-		close(TEMPLISPMETA)
+		close(templispmeta)
 	}
 	else {
-		cmd = LISPCMD "< " TEMPLISP
+		cmd = LISPCMD "< " templisp
 	}
 
 	# Run lisp and capture the last line of output
