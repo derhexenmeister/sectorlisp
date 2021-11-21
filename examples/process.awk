@@ -39,6 +39,9 @@ BEGIN {
 }
 
 END {
+	if (!DEBUG) {
+		print "" # Newline after progress dots
+	}
 	if (ERRORCNT == 0) {
 		print "PASSED: Ran " TESTCNT " test case(s) with no errors"
 	}
@@ -80,6 +83,9 @@ function process(file, input, output,    first, line, actual) {
 		if (RUNMETACIRCULAR) {
 			print "process: embedding in metacircular evaluator"
 		}
+	}
+	else {
+		printf(".") # Show progress
 	}
 
 	# Create an input file for piping into lisp
