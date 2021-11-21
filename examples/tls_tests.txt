@@ -277,3 +277,17 @@ output: ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))
 input: (TUP+ (QUOTE ((1+ 0) (1+ 1+ 0))) (QUOTE ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))))
 output: ((1+ 1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 1+ 1+ 0))
 
+; Comparisons
+;
+input: (> (QUOTE (0) ) (QUOTE (0)))
+output: NIL
+
+input: (> (QUOTE (1+ 0) ) (QUOTE (0)))
+output: T
+
+input: (> (QUOTE (1+ 0) ) (QUOTE (1+ 0)))
+output: NIL
+
+input: (> (QUOTE (1+ 0) ) (QUOTE (1+ 1+ 0)))
+output: NIL
+
