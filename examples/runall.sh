@@ -16,6 +16,21 @@ awk -f process.awk \
 	< ff.txt
 
 echo "======================================================================"
+echo "Running ff preembedded in metacircular evaluator"
+awk -f process.awk \
+	-v TEMPLISPFMT="preprocessed/ff/program_premeta%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/ff/program_premetameta%d.lisp" \
+	< ff_meta.txt
+
+echo "----------------------------------------------------------------------"
+echo "Running ff preembedded in metacircular evaluator once again embedded in metacircular evaluator"
+awk -f process.awk \
+	-v RUNMETACIRCULAR=1 \
+	-v TEMPLISPFMT="preprocessed/ff/program_premeta%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/ff/program_premetameta%d.lisp" \
+	< ff_meta.txt
+
+echo "======================================================================"
 echo "Running standalone_tests"
 awk -f process.awk \
 	-v TEMPLISPFMT="preprocessed/standalone/program%d.lisp" \
