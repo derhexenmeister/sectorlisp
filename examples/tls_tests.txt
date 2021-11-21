@@ -353,3 +353,66 @@ output: T
 input: (= ONE TWO)
 output: NIL
 
+; length of list
+input: (LENGTH NIL)
+output: (0)
+
+input: (LENGTH (QUOTE ()))
+output: (0)
+
+input: (LENGTH (QUOTE (A)))
+output: (1+ 0)
+
+input: (LENGTH (QUOTE (A B)))
+output: (1+ 1+ 0)
+
+input: (LENGTH (QUOTE (A B C)))
+output: (1+ 1+ 1+ 0)
+
+; pick item out of list
+input: (PICK ZERO (QUOTE (A B C D E F G)))
+output: *UNDEFINED
+
+input: (PICK ONE (QUOTE ()))
+output: *UNDEFINED
+
+input: (PICK ONE (QUOTE (A B C D E F G)))
+output: A
+
+input: (PICK TWO (QUOTE (A B C D E F G)))
+output: B
+
+input: (PICK THREE (QUOTE (A B C D E F G)))
+output: C
+
+input: (PICK FOUR (QUOTE (A B C D E F G)))
+output: D
+
+input: (PICK FIVE (QUOTE (A B C D E F G)))
+output: E
+
+; remove item n from list
+input: (REMPICK ZERO (QUOTE (A B C D E F G)))
+output: *UNDEFINED
+
+input: (REMPICK ONE (QUOTE ()))
+output: *UNDEFINED
+
+input: (REMPICK ONE (QUOTE (A B C D E F G)))
+output: (B C D E F G)
+
+input: (REMPICK TWO (QUOTE (A B C D E F G)))
+output: (A C D E F G)
+
+input: (REMPICK THREE (QUOTE (A B C D E F G)))
+output: (A B D E F G)
+
+input: (REMPICK FOUR (QUOTE (A B C D E F G)))
+output: (A B C E F G)
+
+input: (REMPICK FIVE (QUOTE (A B C D E F G)))
+output: (A B C D F G)
+
+input: (REMPICK FIVE (QUOTE (A B C)))
+output: *UNDEFINED
+

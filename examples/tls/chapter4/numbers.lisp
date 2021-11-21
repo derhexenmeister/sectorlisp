@@ -8,9 +8,9 @@
 ;  Some numbers ZERO, ONE, ..., FIVE are defined for convenienve
 ;
 ; TBD/TODO
-;  Can't (ADDTUP (ONE TWO))??? or similar with quotes
+;  Can't (ADDTUP (ONE TWO))??? or similar with quotes. User error?
 ;
-((LAMBDA (ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = ADDTUP TUP+ ZERO?)
+((LAMBDA (ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = ADDTUP TUP+ ZERO? LENGTH PICK REMPICK)
 INSERT_TEST_DATA_HERE
 	 )
  ; ZERO
@@ -97,4 +97,29 @@ INSERT_TEST_DATA_HERE
                  )))
  ; ZERO? page 60
  (QUOTE (LAMBDA (N) (EQ (CAR N) (QUOTE 0))))
+ ; LENGTH page 76
+ (QUOTE (LAMBDA (LAT)
+                (COND
+		  ((EQ NIL LAT) ZERO)
+		  ((QUOTE T) (ADD1 (LENGTH (CDR LAT))))
+		  )))
+ ; PICK page 76
+ (QUOTE (LAMBDA (N LAT)
+                (COND
+		  ((ZERO? N) (QUOTE *UNDEFINED))
+		  ((EQ NIL LAT) (QUOTE *UNDEFINED))
+		  ((ZERO? (SUB1 N)) (CAR LAT))
+		  ((QUOTE T) (PICK (SUB1 N) (CDR LAT)))
+		  )))
+ ; REMPICK page 76
+ (QUOTE (LAMBDA (N LAT)
+                (COND
+		  ((ZERO? N) (QUOTE *UNDEFINED))
+		  ((EQ NIL LAT) (QUOTE *UNDEFINED))
+		  ((> N (LENGTH LAT)) (QUOTE *UNDEFINED))
+		  ((ZERO? (SUB1 N)) (CDR LAT))
+		  ((QUOTE T) (CONS (CAR LAT)
+				   (REMPICK (SUB1 N) (CDR LAT))))
+		  )))
+ ;; This closes out the test
  )
