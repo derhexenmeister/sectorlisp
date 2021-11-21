@@ -164,6 +164,9 @@ function process(file, input, output,    first, line, actual) {
 	close(cmd)
 	if (actual != output) {
 		ERRORCNT = ERRORCNT + 1
+		if (!DEBUG) {
+			print "" # Newline after progress dots
+		}
 		print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 		print ERRORSTR "Processing input file = " file
 		print ERRORSTR "Command = " cmd
