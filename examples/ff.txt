@@ -2,5 +2,24 @@
 ;;
 file: metacircular/ff.lisp 
 
+; the standard test
 input: (QUOTE ((A) B C))
 output: A
+
+input: (QUOTE ())
+output: NIL
+
+input: (QUOTE (ALPHA))
+output: ALPHA
+
+input: (QUOTE (ALPHA BETA GAMMA DELTA))
+output: ALPHA
+
+input: (QUOTE ((ALPHA BETA GAMMA DELTA) APPLE BANANA))
+output: ALPHA
+
+input: (QUOTE (((ALPHA A) BETA GAMMA DELTA) APPLE BANANA))
+output: ALPHA
+
+input: (QUOTE ((((ALPHA OMEGA) A) (BETA C D) GAMMA DELTA) APPLE (BANANA PEEL)))
+output: ALPHA
