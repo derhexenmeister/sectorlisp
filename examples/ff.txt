@@ -1,3 +1,5 @@
+;; This is the find first program used to test sectorlisp
+;;
 file: metacircular/ff.lisp 
 
 input: (QUOTE ((A) B C))

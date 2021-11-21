@@ -1,3 +1,5 @@
+; See "The Little Schemer", Fourth Edition, page 22
+;
 ; Is the atom a in the list of atoms lat (member? a lat)
 ; Returns
 ;  T if the atom a is in the list l

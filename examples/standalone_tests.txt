@@ -1,3 +1,6 @@
+;; These are examples/tests which are run in the sectorlisp REPL without loading
+;; any other lisp code first.
+
 file: empty.lisp
 
 input: (CONS (QUOTE A) (QUOTE B))

@@ -1,3 +1,5 @@
+; See "The Little Schemer", Fourth Edition, page 47
+;
 ; Insert atom new to the right of the first instance of atom old
 ; in the list of atoms lat (insertR new old lat)
 ;

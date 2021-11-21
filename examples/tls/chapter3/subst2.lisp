@@ -1,3 +1,5 @@
+; See "The Little Schemer", Fourth Edition, page 52
+;
 ; Replace the first instance of atom o1 or o2 with new in the list
 ; of atoms lat (subst new old lat)
 ; Returns

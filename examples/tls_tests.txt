@@ -1,3 +1,8 @@
+;; These are based on programs from:
+;;   The Little Schemer
+;;   Fourth Edition
+;;   Daniel P. Friedman and Matthias Felleisen
+;;
 file: tls/chapter2/lat?.lisp 
 input: (QUOTE (fried rice and singapore noodles))
 output: T
@@ -62,6 +67,9 @@ output: (mango pudding and vanilla ice cream)
 input: (QUOTE mango) (QUOTE thai) (QUOTE (thai coconut pudding and thai iced tea))
 output: (thai mango coconut pudding and thai iced tea)
 
+input: (QUOTE candy) (QUOTE cola) (QUOTE (tofu is bean curd))
+output: (tofu is bean curd)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 file: tls/chapter3/insertL.lisp 
 input: (QUOTE thai) (QUOTE mango) (QUOTE (mango pudding and fresh mango))
@@ -75,6 +83,9 @@ output: (breakfast tea)
 
 input: (QUOTE hot) (QUOTE breakfast) (QUOTE (breakfast tea and iced tea))
 output: (hot breakfast tea and iced tea)
+
+input: (QUOTE candy) (QUOTE cola) (QUOTE (tofu is bean curd))
+output: (tofu is bean curd)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 file: tls/chapter3/subst.lisp 
@@ -97,6 +108,9 @@ output: (hot breakfast coffee and iced coffee)
 input: (QUOTE milk) (QUOTE coffee) (QUOTE (coffee and iced coffee))
 output: (milk and iced coffee)
 
+input: (QUOTE candy) (QUOTE cola) (QUOTE (tofu is bean curd))
+output: (tofu is bean curd)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 file: tls/chapter3/subst2.lisp 
 input: (SUBST2 (QUOTE vanilla) (QUOTE banana) (QUOTE durian) (QUOTE (banana frozen yogurt with popping boba)))
@@ -105,7 +119,59 @@ output: (vanilla frozen yogurt with popping boba)
 input: (SUBST2 (QUOTE vanilla) (QUOTE banana) (QUOTE durian) (QUOTE (durian frozen yogurt with popping boba)))
 output: (vanilla frozen yogurt with popping boba)
 
-; TODO - insert multi versions
+input: (SUBST2 (QUOTE candy) (QUOTE cola) (QUOTE water) (QUOTE (tofu is bean curd)))
+output: (tofu is bean curd)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/multirember.lisp 
+input: (QUOTE shrimp) (QUOTE (shrimp fried rice and shrimp rice cakes and shrimp satay))
+output: (fried rice and rice cakes and satay)
+
+input: (QUOTE water) (QUOTE (hot water and cold water))
+output: (hot and cold)
+
+input: (QUOTE etcetera) (QUOTE (etcetera etcetera etcetera))
+output: NIL
+
+input: (QUOTE candy) (QUOTE (tofu is bean curd))
+output: (tofu is bean curd)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/multiinsertR.lisp 
+
+input: (QUOTE rice) (QUOTE white) (QUOTE (white in a bowl and white in a roll))
+output: (white rice in a bowl and white rice in a roll)
+
+; appended right after start of list, and at the end
+input: (QUOTE cats) (QUOTE cute) (QUOTE (cute or white rats and cute))
+output: (cute cats or white rats and cute cats)
+
+input: (QUOTE sweet) (QUOTE candy) (QUOTE (tofu is bean curd))
+output: (tofu is bean curd)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/multiinsertL.lisp 
+
+input: (QUOTE green) (QUOTE tea) (QUOTE (tea))
+output: (green tea)
+
+input: (QUOTE fried) (QUOTE fish) (QUOTE (fish or fish and chips or salt and pepper fish))
+output: (fried fish or fried fish and chips or salt and pepper fried fish)
+
+input: (QUOTE sweet) (QUOTE candy) (QUOTE (tofu is bean curd))
+output: (tofu is bean curd)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+file: tls/chapter3/multisubst.lisp 
+
+input: (QUOTE fudge) (QUOTE topping) (QUOTE (topping ice cream with topping for dessert))
+output: (fudge ice cream with fudge for dessert)
+
+input: (QUOTE vegetables) (QUOTE candy) (QUOTE (candy candy candy))
+output: (vegetables vegetables vegetables)
+
+input: (QUOTE vegetables) (QUOTE candy) (QUOTE (tofurky and brussel sprouts))
+output: (tofurky and brussel sprouts)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Represent numbers with lists for simplicity

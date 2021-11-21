@@ -1,3 +1,5 @@
+; See "The Little Schemer", Fourth Edition, page 43
+;
 ; Make a list consisting of the first element of each sublist (firsts l)
 ; Returns
 ;  A list consisting of the first element of each sublist

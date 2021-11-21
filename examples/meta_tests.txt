@@ -1,3 +1,7 @@
+;; These are based on examples from sectorlisp's lisp.lisp file, with
+;; some additional examples/tests to demonstrate how the metacircular
+;; interpreter works.
+
 file: metacircular/lisp.lisp 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

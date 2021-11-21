@@ -1,4 +1,7 @@
-; Replace the first instance of atom old with new in the list of atoms lat (subst new old lat)
+; See "The Little Schemer", Fourth Edition, page 51
+;
+; Replace the first instance of atom old with new in the list of atoms lat
+;(subst new old lat)
 ; Returns
 ;  Modified list
 ((LAMBDA (SUBST NEW OLD LAT) (SUBST NEW OLD LAT))

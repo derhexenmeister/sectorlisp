@@ -1,3 +1,5 @@
+; See "The Little Schemer", Fourth Edition, page 33
+;
 ; Remove member (rember a lat)
 ; Returns
 ;  The list of atoms lat with the first instance of atom a removed
