@@ -235,12 +235,47 @@ output: (0)
 input: (* ZERO FIVE)
 output: (0)
 
+; Integer division
+input: (/ FIVE ZERO)
+output: *UNDEFINED
+
+input: (/ FIVE ONE)
+output: (1+ 1+ 1+ 1+ 1+ 0)
+
+input: (/ FIVE TWO)
+output: (1+ 1+ 0)
+
+input: (/ FIVE THREE)
+output: (1+ 0)
+
+input: (/ FIVE FOUR)
+output: (1+ 0)
+
+input: (/ FIVE FIVE)
+output: (1+ 0)
+
+input: (/ FIVE (+ FIVE ONE))
+output: (0)
+
+input: (/ (* FOUR FIVE) TWO)
+output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0)
+
 ; Checking for zero
 input: (ZERO? ZERO)
 output: T
 
 input: (ZERO? ONE)
 output: NIL
+
+; Powers
+input: (^ FIVE ZERO)
+output: (1+ 0)
+
+input: (^ FIVE ONE)
+output: (1+ 1+ 1+ 1+ 1+ 0)
+
+input: (^ FIVE TWO)
+output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0)
 
 ; Summing elements of a tuple of numbers
 ;
@@ -279,15 +314,42 @@ output: ((1+ 1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 1+ 1+ 0))
 
 ; Comparisons
 ;
-input: (> (QUOTE (0) ) (QUOTE (0)))
+; >
+input: (> ZERO ZERO)
 output: NIL
 
-input: (> (QUOTE (1+ 0) ) (QUOTE (0)))
+input: (> ONE ZERO)
 output: T
 
-input: (> (QUOTE (1+ 0) ) (QUOTE (1+ 0)))
+input: (> ONE ONE)
 output: NIL
 
-input: (> (QUOTE (1+ 0) ) (QUOTE (1+ 1+ 0)))
+input: (> ONE TWO)
+output: NIL
+
+; <
+input: (< ZERO ZERO)
+output: NIL
+
+input: (< ONE ZERO)
+output: NIL
+
+input: (< ONE ONE)
+output: NIL
+
+input: (< ONE TWO)
+output: T
+
+; =
+input: (= ZERO ZERO)
+output: T
+
+input: (= ONE ZERO)
+output: NIL
+
+input: (= ONE ONE)
+output: T
+
+input: (= ONE TWO)
 output: NIL
 
