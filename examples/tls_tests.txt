@@ -242,8 +242,10 @@ output: T
 input: (ZERO? ONE)
 output: NIL
 
-; Adding tuples of numbers
+; Summing elements of a tuple of numbers
+;
 ; TODO - can't use symbolic input?
+;
 input: (ADDTUP (QUOTE ((1+ 0) (1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))))
 output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0)
 
@@ -253,3 +255,25 @@ output: (0)
 
 input: (ADDTUP (QUOTE ((1+ 0))))
 output: (1+ 0)
+
+; Adding elements of two tuples
+;
+input: (TUP+ NIL NIL)
+output: NIL
+
+; Unequal lengths with and without using nil
+input: (TUP+ NIL (QUOTE ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))))
+output: ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))
+
+input: (TUP+ (QUOTE ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))) NIL)
+output: ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))
+
+input: (TUP+ (QUOTE ((0))) (QUOTE ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))))
+output: ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))
+
+input: (TUP+ (QUOTE ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))) (QUOTE ((0))))
+output: ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))
+
+input: (TUP+ (QUOTE ((1+ 0) (1+ 1+ 0))) (QUOTE ((1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 0))))
+output: ((1+ 1+ 1+ 1+ 0) (1+ 1+ 1+ 1+ 1+ 1+ 0))
+

@@ -10,7 +10,7 @@
 ; TBD/TODO
 ;  Can't (ADDTUP (ONE TWO))??? or similar with quotes
 ;
-((LAMBDA (ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * ADDTUP ZERO?)
+((LAMBDA (ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * ADDTUP TUP+ ZERO?)
 INSERT_TEST_DATA_HERE
 	 )
  ; ZERO
@@ -47,11 +47,19 @@ INSERT_TEST_DATA_HERE
                  ((ZERO? M) ZERO)
                  ((QUOTE T) (+ N (* N (SUB1 M))))
                  )))
- ; ADDTUP page 64
+ ; ADDTUP page 62
  (QUOTE (LAMBDA (TUP)
                 (COND
                  ((EQ NIL TUP) ZERO)
                  ((QUOTE T) (+ (CAR TUP) (ADDTUP (CDR TUP))))
+                 )))
+ ; TUP+ page 67
+ (QUOTE (LAMBDA (TUP1 TUP2)
+                (COND
+                 ((EQ NIL TUP1) TUP2)
+                 ((EQ NIL TUP2) TUP1)
+                 ((QUOTE T) (CONS (+ (CAR TUP1) (CAR TUP2))
+                                  (TUP+ (CDR TUP1) (CDR TUP2))))
                  )))
  ; ZERO? page 60
  (QUOTE (LAMBDA (N) (EQ (CAR N) (QUOTE 0))))
