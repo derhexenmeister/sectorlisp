@@ -10,7 +10,7 @@
 ; TBD/TODO
 ;  Can't (ADDTUP (ONE TWO))??? or similar with quotes. User error?
 ;
-((LAMBDA (NOT OR AND ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = ADDTUP TUP+ ZERO? LENGTH PICK REMPICK)
+((LAMBDA (NOT OR AND ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = ADDTUP TUP+ ZERO? NUMBER? LENGTH PICK REMPICK)
 INSERT_TEST_DATA_HERE
 	 )
  ; logical NOT
@@ -116,20 +116,26 @@ INSERT_TEST_DATA_HERE
                                   (TUP+ (CDR TUP1) (CDR TUP2))))
                  )))
  ; ZERO? page 60
- ; If numbers are well formed then this can just be:
+ ; If numbers are guaranteed to be well formed then this can just be:
  ; (QUOTE (LAMBDA (N) (EQ (CAR N) (QUOTE 0))))
- ; but we'll make it more strict so we can use it
- ; for NUMBER?
+ ; but we'll be paranoid.
  ;
- (QUOTE (LAMBDA (N) (EQ (CAR N) (QUOTE 0))))
- ;(QUOTE (LAMBDA (N)
-;		(COND
-;		  ((EQ NIL N) NIL)
-;		  ((ATOM N) NIL)
-;		  ((QUOTE T) (AND (EQ (CAR N) (QUOTE 0))
-;				  (EQ (CDR N NIL))))
-;		  )))
-		  
+ (QUOTE (LAMBDA (N)
+		(COND
+		  ((EQ NIL N) NIL)
+		  ((ATOM N) NIL)
+		  ((QUOTE T) (AND (EQ (CAR N) (QUOTE 0))
+				  (EQ (CDR N) NIL))))
+		  ))
+ ; NUMBER? page 77
+ (QUOTE (LAMBDA (N)
+		(COND
+		  ((EQ NIL N) NIL)
+		  ((ATOM N) NIL)
+		  ((EQ (CAR N) (QUOTE 0)) (EQ (CDR N) NIL)) ; more efficient than calling zero?
+		  ((QUOTE T) (AND (EQ (CAR N) (QUOTE 1+))
+				  (NUMBER? (CDR N)))))
+		  ))
  ; LENGTH page 76
  (QUOTE (LAMBDA (LAT)
                 (COND

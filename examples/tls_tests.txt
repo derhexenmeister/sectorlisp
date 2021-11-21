@@ -295,11 +295,60 @@ input: (/ (* FOUR FIVE) TWO)
 output: (1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 1+ 0)
 
 ; Checking for zero
+
+; Empty list is not considered zero here
+input: (ZERO? (QUOTE ()))
+output: NIL
+
+; Zero must be a list
+input: (ZERO? (QUOTE 0))
+output: NIL
+
+; Zero must be a in a list of atoms, no sublists
+input: (ZERO? (QUOTE ((0))))
+output: NIL
+
 input: (ZERO? ZERO)
 output: T
 
 input: (ZERO? ONE)
 output: NIL
+
+; 0 must be last in the list
+input: (ZERO? (QUOTE (0 A)))
+output: NIL
+
+; Checking for valid number
+
+; Empty list is not considered to be a number
+input: (NUMBER? (QUOTE ()))
+output: NIL
+
+; Zero must be a list
+input: (NUMBER? (QUOTE 0))
+output: NIL
+
+; And zero must be a lat
+input: (NUMBER? (QUOTE ((0))))
+output: NIL
+
+; One must be a list too
+input: (NUMBER? (QUOTE 1+))
+output: NIL
+
+; And the one list must be terminated with a 0
+input: (NUMBER? (QUOTE (1+)))
+output: NIL
+
+; And the one list must not have anything after the terminator
+input: (NUMBER? (QUOTE (1+ 0 0)))
+output: NIL
+
+input: (NUMBER? ZERO)
+output: T
+
+input: (NUMBER? ONE)
+output: T
 
 ; Powers
 input: (^ FIVE ZERO)
