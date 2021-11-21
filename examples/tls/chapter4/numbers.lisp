@@ -10,9 +10,29 @@
 ; TBD/TODO
 ;  Can't (ADDTUP (ONE TWO))??? or similar with quotes. User error?
 ;
-((LAMBDA (ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = ADDTUP TUP+ ZERO? LENGTH PICK REMPICK)
+((LAMBDA (NOT OR AND ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = ADDTUP TUP+ ZERO? LENGTH PICK REMPICK)
 INSERT_TEST_DATA_HERE
 	 )
+ ; logical NOT
+ (QUOTE (LAMBDA (A)
+                (COND
+		  ((EQ A (QUOTE T)) NIL)
+		  ((QUOTE T) (QUOTE T)))
+		))
+ ; logical OR
+ (QUOTE (LAMBDA (A B)
+                (COND
+		  ((EQ A (QUOTE T)) (QUOTE T))
+                  ((EQ B (QUOTE T)) (QUOTE T))
+                  ((QUOTE T) NIL))
+		))
+ ; logical AND
+ (QUOTE (LAMBDA (A B)
+                (COND
+		  ((EQ A NIL) NIL)
+                  ((EQ B NIL) NIL)
+                  ((QUOTE T) (QUOTE T)))
+		))
  ; ZERO
  (QUOTE (0))
  ; ONE
@@ -96,7 +116,20 @@ INSERT_TEST_DATA_HERE
                                   (TUP+ (CDR TUP1) (CDR TUP2))))
                  )))
  ; ZERO? page 60
+ ; If numbers are well formed then this can just be:
+ ; (QUOTE (LAMBDA (N) (EQ (CAR N) (QUOTE 0))))
+ ; but we'll make it more strict so we can use it
+ ; for NUMBER?
+ ;
  (QUOTE (LAMBDA (N) (EQ (CAR N) (QUOTE 0))))
+ ;(QUOTE (LAMBDA (N)
+;		(COND
+;		  ((EQ NIL N) NIL)
+;		  ((ATOM N) NIL)
+;		  ((QUOTE T) (AND (EQ (CAR N) (QUOTE 0))
+;				  (EQ (CDR N NIL))))
+;		  )))
+		  
  ; LENGTH page 76
  (QUOTE (LAMBDA (LAT)
                 (COND
