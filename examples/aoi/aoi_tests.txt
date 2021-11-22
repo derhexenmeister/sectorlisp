@@ -1,0 +1,30 @@
+; See:
+;  AI Memo No. 453
+;  May 1978
+;  The Art of the Interpreter
+;  or, The Modularity Complex
+;  (Parts Zero, One, and Two)
+;  by
+;  Guy Steele Jr. and Gerald Jay Sussman
+;  Page 57
+;
+file: aoi/reverse.lisp 
+
+input: (REVERSE (QUOTE OOPS))
+output: *UNDEFINED
+
+input: (REVERSE (QUOTE ()))
+output: NIL
+
+input: (REVERSE (QUOTE (A)))
+output: (A)
+
+input: (REVERSE (QUOTE (A B)))
+output: (B A)
+
+input: (REVERSE (QUOTE ((APPLES BANANAS) (CARROTS DAIKONS))))
+output: ((CARROTS DAIKONS) (APPLES BANANAS))
+
+; This will take a bit of memory
+input: (REVERSE (QUOTE (A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)))
+output: (Z Y X W V U T S R Q P O N M L K J I H G F E D C B A)

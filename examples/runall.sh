@@ -61,6 +61,21 @@ awk -f process.awk \
 	< tls/tls_tests.txt
 
 echo "======================================================================"
+echo "Running aoi_tests"
+awk -f process.awk \
+	-v TEMPLISPFMT="preprocessed/aoi/program%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/aoi/program_meta%d.lisp" \
+       	< aoi/aoi_tests.txt
+
+echo "----------------------------------------------------------------------"
+echo "Running aoi_tests embedded in metacircular evaluator"
+awk -f process.awk \
+	-v RUNMETACIRCULAR=1 \
+	-v TEMPLISPFMT="preprocessed/aoi/program%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/aoi/program_meta%d.lisp" \
+	< aoi/aoi_tests.txt
+
+echo "======================================================================"
 echo "Running meta_tests (cannot run embedded in metacircular evaluator here)"
 awk -f process.awk \
 	-v TEMPLISPFMT="preprocessed/meta/program%d.lisp" \
