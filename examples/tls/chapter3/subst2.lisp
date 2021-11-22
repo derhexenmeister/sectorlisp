@@ -9,7 +9,7 @@
 ; (even though it's not really needed here.) Also we show a different
 ; place to insert the test data.
 ;
-((LAMBDA (OR SUBST2 NEW O1 O2 LAT)
+((LAMBDA (OR SUBST2)
 INSERT_TEST_DATA_HERE
 	 )
  ; OR
