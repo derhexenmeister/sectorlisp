@@ -1,16 +1,16 @@
 ;; These are examples/tests which are run in the sectorlisp REPL without loading
 ;; any other lisp code first.
 
-file: empty.lisp
+file: standalone/empty.lisp
 
 input: (CONS (QUOTE A) (QUOTE B))
 output: (A∙B)
 
-; And we can use .
+; We can't really use dot - best to avoid
 input: (QUOTE (A . B))
-output: (A∙B)
+output: (A . B)
 
-; CAR and CDR work for either input format
+; CAR and CDR work
 input: (CAR (CONS (QUOTE A) (QUOTE B)))
 output: A
 
@@ -20,8 +20,9 @@ output: B
 input: (CAR (QUOTE (A . B)))
 output: A
 
+; Why you don't want to use . - it's treated as an ATOM
 input: (CDR (QUOTE (A . B)))
-output: B
+output: (. B)
 
 ; However A∙B is one symbol, the bullet has no special significance for input
 input: (QUOTE (A∙B))
@@ -40,21 +41,20 @@ input: (CDR (QUOTE (A∙B C)))
 output: (C)
 
 ; Now onto longer lists
-
 input: (QUOTE ((A . B) (C . D)))
-output: ((A∙B) (C∙D))
+output: ((A . B) (C . D))
 
-; Same thing
+; Since . is an atom we see the final NIL?
 input: (QUOTE ((A . B) (C . D) . NIL))
-output: ((A∙B) (C∙D))
+output: ((A . B) (C . D) . NIL)
 
 ; We can cons the above as well
 input: (CONS (CONS (QUOTE A) (QUOTE B)) (CONS (CONS (QUOTE C) (QUOTE D)) NIL))
 output: ((A∙B) (C∙D))
 
-; And again
+; And again (keeping around in case . handling changes)
 input: (QUOTE ((A . B) (C . D)(E . F)))
-output: ((A∙B) (C∙D) (E∙F))
+output: ((A . B) (C . D) (E . F))
 
 input: (CONS (CONS (QUOTE A) (QUOTE B)) (CONS (CONS (QUOTE C) (QUOTE D)) (CONS (CONS (QUOTE E) (QUOTE F)) NIL)))
 output: ((A∙B) (C∙D) (E∙F))
