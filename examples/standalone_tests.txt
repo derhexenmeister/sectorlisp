@@ -41,22 +41,21 @@ output: (C)
 
 ; Now onto longer lists
 
-; This doesn't work, and outputs two lines
 input: (QUOTE ((A . B) (C . D)))
-;output: ((A∙B)∙NIL)
-output: NIL
+output: ((A∙B) (C∙D))
 
-; This doesn't work either (had to try)
-;input: (QUOTE ((A . B) . (C . D) . NIL))
-;output: ((A∙B)∙NIL)
-;output: NIL
-;output: NIL
-;output: NIL
+; Same thing
+input: (QUOTE ((A . B) (C . D) . NIL))
+output: ((A∙B) (C∙D))
 
-; We can cons the above though
+; We can cons the above as well
 input: (CONS (CONS (QUOTE A) (QUOTE B)) (CONS (CONS (QUOTE C) (QUOTE D)) NIL))
 output: ((A∙B) (C∙D))
 
-; And again - is there an easier method?
+; And again
+input: (QUOTE ((A . B) (C . D)(E . F)))
+output: ((A∙B) (C∙D) (E∙F))
+
 input: (CONS (CONS (QUOTE A) (QUOTE B)) (CONS (CONS (QUOTE C) (QUOTE D)) (CONS (CONS (QUOTE E) (QUOTE F)) NIL)))
 output: ((A∙B) (C∙D) (E∙F))
+
