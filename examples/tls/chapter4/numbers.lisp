@@ -10,7 +10,7 @@
 ; TBD/TODO
 ;  Can't (ADDTUP (ONE TWO))??? or similar with quotes. User error?
 ;
-((LAMBDA (NOT OR AND ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = ADDTUP TUP+ ZERO? NUMBER? NO-NUMS ALL-NUMS LENGTH PICK REMPICK)
+((LAMBDA (NOT OR AND ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = EQAN? ADDTUP TUP+ ZERO? NUMBER? NO-NUMS ALL-NUMS LENGTH PICK REMPICK OCCUR)
 INSERT_TEST_DATA_HERE
 	 )
  ; logical NOT
@@ -101,6 +101,15 @@ INSERT_TEST_DATA_HERE
 		  ((< N M) NIL)
 		  ((QUOTE T) (QUOTE T))
 		  )))
+ ; EQAN? page 78
+ ; We're going to pretend that our numbers are ATOMs, which they aren't but we want to run this code...
+ ;
+ (QUOTE (LAMBDA (A1 A2)
+		(COND
+		  ((AND (NUMBER? A1) (NUMBER? A2)) (= A1 A2))
+		  ((OR (NUMBER? A1) (NUMBER? A2)) NIL)
+		  ((QUOTE T) (EQ A1 A2)))
+		))
  ; ADDTUP page 62
  (QUOTE (LAMBDA (TUP)
                 (COND
@@ -178,5 +187,12 @@ INSERT_TEST_DATA_HERE
 		  ((QUOTE T) (CONS (CAR LAT)
 				   (REMPICK (SUB1 N) (CDR LAT))))
 		  )))
+ ; OCCUR page 78
+ (QUOTE (LAMBDA (A LAT)
+		(COND
+		  ((EQ LAT NIL) ZERO)
+		  ((EQAN? (CAR LAT) A) (ADD1 (OCCUR A (CDR LAT))))
+		  ((QUOTE T) (OCCUR A (CDR LAT))))
+		))
  ;; This closes out the test
  )

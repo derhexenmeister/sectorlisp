@@ -476,6 +476,28 @@ output: T
 input: (= ONE TWO)
 output: NIL
 
+; EQAN
+input: (EQAN? ONE ONE)
+output: T
+
+input: (EQAN? FIVE FIVE)
+output: T
+
+input: (EQAN? ONE TWO)
+output: NIL
+
+input: (EQAN? ONE (QUOTE ONE))
+output: NIL
+
+input: (EQAN? (QUOTE ONE) ONE)
+output: NIL
+
+input: (EQAN? (QUOTE ONE) (QUOTE ONE))
+output: T
+
+input: (EQAN? (QUOTE APPLES) (QUOTE ORANGES))
+output: NIL
+
 ; length of list
 input: (LENGTH NIL)
 output: (0)
@@ -538,4 +560,22 @@ output: (A B C D F G)
 
 input: (REMPICK FIVE (QUOTE (A B C)))
 output: *UNDEFINED
+
+; Count the number of times an atom appears in a list
+; Note that we're treating numbers as atoms which isn't really true here
+
+input: (OCCUR (QUOTE A) (QUOTE ())
+output (0)
+
+input: (OCCUR (QUOTE Z) (QUOTE (A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0) A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0))))
+output: (0)
+
+input: (OCCUR (QUOTE A) (QUOTE (A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0) A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0))))
+output: (1+ 1+ 0)
+
+input: (OCCUR (QUOTE (0)) (QUOTE (A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0) A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0))))
+output: (1+ 1+ 0)
+
+input: (OCCUR (QUOTE (1+ 1+ 1+ 0)) (QUOTE (A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0) A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0))))
+output: (1+ 1+ 0)
 
