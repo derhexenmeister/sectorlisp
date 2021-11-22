@@ -350,6 +350,26 @@ output: T
 input: (NUMBER? ONE)
 output: T
 
+; Remove numbers from lat
+input: (NO-NUMS (QUOTE ()))
+output: NIL
+
+input: (NO-NUMS (QUOTE (A B C D)))
+output: (A B C D)
+
+input: (NO-NUMS (QUOTE ((0) (1+ 0) (1+ 1+ 0) (1+ 1+ 1+ 0))))
+output: NIL
+
+input: (NO-NUMS (QUOTE ((0) A (1+ 0) B (1+ 1+ 0) C (1+ 1+ 1+ 0) D)))
+output: (A B C D)
+
+input: (NO-NUMS (QUOTE (A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0))))
+output: (A B C D)
+
+; malformed #'s won't be filtered, valid #'s will be
+input: (NO-NUMS (QUOTE (A (0 X) B (1+ 0 0) C (1+ 1+ 0 1+) D (1+ 1+ 1+ 0))))
+input: (A (0 X) B (1+ 0 0) C (1+ 1+ 0 1+) D (1+ 1+ 1+ 0))
+
 ; Powers
 input: (^ FIVE ZERO)
 output: (1+ 0)
