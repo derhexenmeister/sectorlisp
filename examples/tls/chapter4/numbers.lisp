@@ -10,7 +10,7 @@
 ; TBD/TODO
 ;  Can't (ADDTUP (ONE TWO))??? or similar with quotes. User error?
 ;
-((LAMBDA (NOT OR AND ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = ADDTUP TUP+ ZERO? NUMBER? NO-NUMS LENGTH PICK REMPICK)
+((LAMBDA (NOT OR AND ZERO ONE TWO THREE FOUR FIVE ADD1 SUB1 + - * / ^ > < = ADDTUP TUP+ ZERO? NUMBER? NO-NUMS ALL-NUMS LENGTH PICK REMPICK)
 INSERT_TEST_DATA_HERE
 	 )
  ; logical NOT
@@ -144,6 +144,15 @@ INSERT_TEST_DATA_HERE
 		  ((NUMBER? (CAR LAT)) (NO-NUMS (CDR LAT)))
 		  ((QUOTE T) (CONS (CAR LAT)
 				   (NO-NUMS (CDR LAT)))))
+		))
+ ; ALL-NUMS page 78
+ ; Removes non-numbers from lat
+ (QUOTE (LAMBDA (LAT)
+		(COND
+		  ((EQ NIL LAT) NIL)
+		  ((NUMBER? (CAR LAT)) (CONS (CAR LAT)
+					     (ALL-NUMS (CDR LAT))))
+		  ((QUOTE T) (ALL-NUMS (CDR LAT))))
 		))
  ; LENGTH page 76
  (QUOTE (LAMBDA (LAT)

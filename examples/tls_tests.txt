@@ -370,6 +370,26 @@ output: (A B C D)
 input: (NO-NUMS (QUOTE (A (0 X) B (1+ 0 0) C (1+ 1+ 0 1+) D (1+ 1+ 1+ 0))))
 input: (A (0 X) B (1+ 0 0) C (1+ 1+ 0 1+) D (1+ 1+ 1+ 0))
 
+; Remove non-numbers from lat
+input: (ALL-NUMS (QUOTE ()))
+output: NIL
+
+input: (ALL-NUMS (QUOTE (A B C D)))
+output: NIL
+
+input: (ALL-NUMS (QUOTE ((0) (1+ 0) (1+ 1+ 0) (1+ 1+ 1+ 0))))
+output: ((0) (1+ 0) (1+ 1+ 0) (1+ 1+ 1+ 0))
+
+input: (ALL-NUMS (QUOTE ((0) A (1+ 0) B (1+ 1+ 0) C (1+ 1+ 1+ 0) D)))
+output: ((0) (1+ 0) (1+ 1+ 0) (1+ 1+ 1+ 0))
+
+input: (ALL-NUMS (QUOTE (A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0))))
+output:  ((0) (1+ 0) (1+ 1+ 0) (1+ 1+ 1+ 0))
+
+; malformed #'s will be filtered, valid #'s won't
+input: (ALLO-NUMS (QUOTE (A (0 X) B (1+ 0 0) C (1+ 1+ 0 1+) D (1+ 1+ 1+ 0))))
+input: ((1+ 1+ 1+ 0))
+
 ; Powers
 input: (^ FIVE ZERO)
 output: (1+ 0)
