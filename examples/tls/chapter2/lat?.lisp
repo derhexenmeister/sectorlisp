@@ -8,6 +8,7 @@
 ((LAMBDA (LAT? L) (LAT? L))
  (QUOTE (LAMBDA (L)
                 (COND ((EQ NIL L) (QUOTE T))
+		      ((ATOM L) NIL)
                       ((ATOM (CAR L)) (LAT? (CDR L)))
                       ((QUOTE T) NIL))))
 INSERT_TEST_DATA_HERE
