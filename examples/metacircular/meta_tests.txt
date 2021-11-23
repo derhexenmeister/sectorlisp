@@ -288,7 +288,7 @@ output: T
 input: (APPLY (QUOTE EQ) (QUOTE (A B)) NIL)
 output: NIL
 
-input: (APPLY (QUOTE (LAMBDA (L) (CONS 'MY L))) (QUOTE ((LITTLE PONY))) NIL)
+input: (APPLY (QUOTE (LAMBDA (L) (CONS (QUOTE MY) L))) (QUOTE ((LITTLE PONY))) NIL)
 output: (MY LITTLE PONY)
 
 ;;;;;
