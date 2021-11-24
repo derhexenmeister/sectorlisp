@@ -36,13 +36,19 @@ kCdr:	.asciz	"CDR"				# ordering matters
 kCons:	.asciz	"CONS"				# ordering matters
 kEq:	.asciz	"EQ"				# needs to be last
 
-begin:	push	%cs				# that means ss = ds = es = cs
+begin:	xor	%sp,%sp				# use highest address as stack
+						# set independently of SS!
+						# 8088 doesn't stop interrupts
+						# after SS is set, and PC BIOS
+						# sets SP to a value that will
+						# damage our code if int fires
+						# between setting SS and SP
+	push	%cs				# that means ss = ds = es = cs
 	pop	%ds				# noting ljmp set cs to 0x7c00
 	push	%cs				# that's the bios load address
 	pop	%es				# therefore NULL points to NUL
 	push	%cs				# terminated NIL string above!
 	pop	%ss				# errata exists but don't care
-	xor	%sp,%sp				# use highest address as stack
 	mov	$2,%bx
 main:	mov	$0x8000,%cx			# dl (g_look) is zero or cr
 	call	GetToken
@@ -114,14 +120,14 @@ Intern:	push	%cx				# Intern(cx,di): ax
 	mov	%bp,%cx
 	mov	%di,%ax
 	cmp	%bh,(%di)
-	je	2f
+	je	8f
 	rep cmpsb				# memcmp(di,si,cx)
 	je	9f
-	not	%cx
 	xor	%ax,%ax
-	repne scasb				# memchr(di,al,cx)
+2:	scasb					# memchr(di,al,cx)
+	jne	2b
 	jmp	1b
-2:	rep movsb				# memcpy(di,si,cx)
+8:	rep movsb				# memcpy(di,si,cx)
 9:	pop	%cx
 	ret
 
