@@ -579,3 +579,17 @@ output: (1+ 1+ 0)
 input: (OCCUR (QUOTE (1+ 1+ 1+ 0)) (QUOTE (A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0) A (0) B (1+ 0) C (1+ 1+ 0) D (1+ 1+ 1+ 0))))
 output: (1+ 1+ 0)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; rember*
+;
+file: tls/chapter5/remberstar.lisp
+input: (QUOTE DROP) (QUOTE ((WATER) DROP ((TEAR) DROP) (AND (GUM)) DROP))
+output: ((WATER) ((TEAR)) (AND (GUM)))
+
+input: (QUOTE NOTFOUND) (QUOTE ((WATER) DROP ((TEAR) DROP) (AND (GUM)) DROP))
+output: ((WATER) DROP ((TEAR) DROP) (AND (GUM)) DROP)
+
+; In case it isn't obvious:
+; (() (()) (()))) is (NIL (NIL) (NIL)) is
+input: (QUOTE DROP) (QUOTE ((DROP) DROP ((DROP) DROP) (DROP (DROP)) DROP))
+output: (NIL (NIL) (NIL))
