@@ -60,7 +60,7 @@ GetToken:					# GetToken():al, dl is g_look
 	cmp	$' ',%al
 	jbe	2f
 	stosb
-	xchg	%ax,%bp
+	xchg	%ax,%si
 2:	call	GetChar				# exchanges dx and ax
 	cmp	$' ',%al
 	jbe	1b
@@ -68,15 +68,10 @@ GetToken:					# GetToken():al, dl is g_look
 	jbe	3f
 	cmp	$')',%dl			# dl = g_look
 	ja	1b
-3:	movb	%bh,(%di)			# bh is zero
-	xchg	%bp,%ax
+3:	mov	%bh,(%di)			# bh is zero
+	xchg	%si,%ax
 	ret
 
-.PutObject:					# .PutObject(c:al,x:si)
-	call	PutChar				# preserves si
-PrintObject:					# PrintObject(x:si)
-	test	%si,%si				# set sf=1 if cons
-	jns	.PrintAtom			# jump if cons
 .PrintList:
 	mov	$'(',%al
 2:	push	(%bx,%si)
@@ -91,8 +86,13 @@ PrintObject:					# PrintObject(x:si)
 	call	.PutObject
 4:	mov	$')',%al
 	jmp	PutChar
+
+.PutObject:					# .PutObject(c:al,x:si)
 .PrintString:					# nul-terminated in si
-	call	PutChar
+	call	PutChar				# preserves si
+PrintObject:					# PrintObject(x:si)
+	test	%si,%si				# set sf=1 if cons
+	js	.PrintList			# jump if not cons
 .PrintAtom:
 	lodsb
 	test	%al,%al				# test for nul terminator
@@ -100,32 +100,30 @@ PrintObject:					# PrintObject(x:si)
 	ret
 
 GetObject:					# called just after GetToken
-	cmpb	$'(',%al
+	cmp	$'(',%al
 	je	GetList
-.Intern:
-	mov	%cx,%si
+#	jmp	Intern
+
+Intern:	push	%cx				# Intern(cx,di): ax
+	mov	%di,%bp
+	sub	%cx,%bp
+	inc	%bp
 	xor	%di,%di
-	xor	%al,%al
-0:	push	%di				# save 1
-1:	cmpsb
-	jne	2f
-	dec	%di
-	scasb
-	jne	1b
-	jmp	5f
-2:	pop	%bp				# drop 1
-	mov	%cx,%si
-3:	scasb
-	jne	3b
-	cmp	(%di),%al
-	jne	0b
-	push	%di				# StpCpy
-4:	movsb
-	dec	%di
-	scasb
-	jnz	4b
-5:	pop	%ax				# restore 1
-.ret:	ret
+1:	pop	%si
+	push	%si
+	mov	%bp,%cx
+	mov	%di,%ax
+	cmp	%bh,(%di)
+	je	2f
+	rep cmpsb				# memcmp(di,si,cx)
+	je	9f
+	not	%cx
+	xor	%ax,%ax
+	repne scasb				# memchr(di,al,cx)
+	jmp	1b
+2:	rep movsb				# memcpy(di,si,cx)
+9:	pop	%cx
+	ret
 
 GetChar:xor	%ax,%ax				# GetChar→al:dl
 	int	$0x16				# get keystroke
@@ -186,7 +184,7 @@ Gc:	cmp	%dx,%di				# Gc(x:di,A:dx,B:si):ax
 	ret
 
 GetList:call	GetToken
-	cmpb	$')',%al
+	cmp	$')',%al
 	je	.retF
 	call	GetObject
 	push	%ax				# popped by xCons
