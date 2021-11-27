@@ -1,0 +1,9 @@
+;; These are from PureLISP.sh
+;;
+;; https://github.com/ytaki0801/PureLISP.sh/tree/main/examples
+;; Original license https://creativecommons.org/publicdomain/zero/1.0/
+;;
+file: purelisp/quine.lisp
+input: 
+output: ((LAMBDA (X) (CONS X (CONS (CONS (QUOTE QUOTE) (CONS X (QUOTE NIL))) (QUOTE NIL)))) (QUOTE (LAMBDA (X) (CONS X (CONS (CONS (QUOTE QUOTE) (CONS X (QUOTE NIL))) (QUOTE NIL))))))
+

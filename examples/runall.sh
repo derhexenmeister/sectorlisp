@@ -105,3 +105,19 @@ awk -f process.awk \
 	< metacircular/meta_tests.txt
 
 echo "======================================================================"
+echo "Running purelisp_tests"
+awk -f process.awk \
+	"$@" \
+	-v TEMPLISPFMT="preprocessed/purelisp/program%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/purelisp/program_meta%d.lisp" \
+       	< purelisp/purelisp_tests.txt
+
+echo "----------------------------------------------------------------------"
+echo "Running purelisp_tests embedded in metacircular evaluator"
+awk -f process.awk \
+	"$@" \
+	-v RUNMETACIRCULAR=1 \
+	-v TEMPLISPFMT="preprocessed/purelisp/program%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/purelisp/program_meta%d.lisp" \
+	< purelisp/purelisp_tests.txt
+echo "======================================================================"
