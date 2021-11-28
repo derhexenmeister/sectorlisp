@@ -1,5 +1,5 @@
 #!/bin/sh
-rm preprocessed/ff/*.lisp
+rm preprocessed/lispi/*.lisp
 rm preprocessed/meta/*.lisp
 rm preprocessed/standalone/*.lisp
 rm preprocessed/tls/*.lisp

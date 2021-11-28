@@ -12,28 +12,28 @@
 #
 clear
 echo "======================================================================"
-echo "Running ff"
+echo "Running lispi tests"
 awk -f process.awk \
 	"$@" \
-	-v TEMPLISPFMT="preprocessed/ff/program%d.lisp" \
-       	-v TEMPLISPMETAFMT="preprocessed/ff/program_meta%d.lisp" \
-	< metacircular/ff.txt
+	-v TEMPLISPFMT="preprocessed/lispi/program%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/lispi/program_meta%d.lisp" \
+	< lispi/lispi.txt
 
 echo "----------------------------------------------------------------------"
-echo "Running ff embedded in metacircular evaluator"
+echo "Running lispi metacircular tests embedded in metacircular evaluator"
 awk -f process.awk \
 	"$@" \
 	-v RUNMETACIRCULAR=1 \
-	-v TEMPLISPFMT="preprocessed/ff/program%d.lisp" \
-       	-v TEMPLISPMETAFMT="preprocessed/ff/program_meta%d.lisp" \
-	< metacircular/ff.txt
+	-v TEMPLISPFMT="preprocessed/lispi/program%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/lispi/program_meta%d.lisp" \
+	< lispi/lispi.txt
 
 echo "======================================================================"
 echo "Running ff preembedded in metacircular evaluator"
 awk -f process.awk \
 	"$@" \
-	-v TEMPLISPFMT="preprocessed/ff/program_premeta%d.lisp" \
-       	-v TEMPLISPMETAFMT="preprocessed/ff/program_premetameta%d.lisp" \
+	-v TEMPLISPFMT="preprocessed/meta/program_premeta%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/meta/program_premetameta%d.lisp" \
 	< metacircular/ff_meta.txt
 
 echo "----------------------------------------------------------------------"
@@ -41,8 +41,8 @@ echo "Running ff preembedded in metacircular evaluator once again embedded in me
 awk -f process.awk \
 	"$@" \
 	-v RUNMETACIRCULAR=1 \
-	-v TEMPLISPFMT="preprocessed/ff/program_premeta%d.lisp" \
-       	-v TEMPLISPMETAFMT="preprocessed/ff/program_premetameta%d.lisp" \
+	-v TEMPLISPFMT="preprocessed/meta/program_premeta%d.lisp" \
+       	-v TEMPLISPMETAFMT="preprocessed/meta/program_premetameta%d.lisp" \
 	< metacircular/ff_meta.txt
 
 echo "======================================================================"

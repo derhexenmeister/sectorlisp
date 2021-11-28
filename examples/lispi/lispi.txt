@@ -1,0 +1,46 @@
+file: lispi/lispi.lisp 
+
+; This is the find first program used to test sectorlisp
+;
+; Lisp I Programmer's Manual, page 14
+;
+input: (FF (QUOTE ((A) B C)))
+output: A
+
+input: (FF (QUOTE ()))
+output: NIL
+
+input: (FF (QUOTE (ALPHA)))
+output: ALPHA
+
+input: (FF (QUOTE (ALPHA BETA GAMMA DELTA)))
+output: ALPHA
+
+input: (FF (QUOTE ((ALPHA BETA GAMMA DELTA) APPLE BANANA)))
+output: ALPHA
+
+input: (FF (QUOTE (((ALPHA A) BETA GAMMA DELTA) APPLE BANANA)))
+output: ALPHA
+
+input: (FF (QUOTE ((((ALPHA OMEGA) A) (BETA C D) GAMMA DELTA) APPLE (BANANA PEEL))))
+output: ALPHA
+
+; Lisp I Programmer's Manual, page 15
+;
+input: (SUBST (QUOTE (X A)) (QUOTE B) (QUOTE ((A B) C)))
+output: ((A (X A)) C)
+
+input: (SUBST (CONS (QUOTE X) (QUOTE A)) (QUOTE B) (CONS (CONS (QUOTE A) (CONS (CONS (QUOTE X) (QUOTE A)) NIL)) (QUOTE C)))
+output: ((A (X∙A))∙C)
+
+input: (SUBST (QUOTE NEW) (QUOTE OLD) (QUOTE (OLD A B C OLD (OLD OLD OLD) D E F OLD)))
+output: (NEW A B C NEW (NEW NEW NEW) D E F NEW)
+
+; Lisp I Programmer's Manual, page 100
+;
+;input: (COLLAPSE (QUOTE (A B C D E F G)))
+;output: (A B C D E F G)
+
+;input: (COLLAPSE (QUOTE ((A) (B (C D)))))
+;output: (A B C D)
+
