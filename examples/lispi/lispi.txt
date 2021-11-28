@@ -36,6 +36,14 @@ output: ((A (X∙A))∙C)
 input: (SUBST (QUOTE NEW) (QUOTE OLD) (QUOTE (OLD A B C OLD (OLD OLD OLD) D E F OLD)))
 output: (NEW A B C NEW (NEW NEW NEW) D E F NEW)
 
+; Test helpers (short circuiting)
+;
+input: (AND NIL (QUOTE *UNDEFINED))
+output: NIL
+
+input: (OR (QUOTE T) (QUOTE *UNDEFINED))
+output: T
+
 ; Lisp I Programmer's Manual, page 15
 input: (EQUAL (QUOTE A) (QUOTE A))
 output: T
@@ -114,6 +122,34 @@ output: T
 
 input: (AMONG (QUOTE A) (QUOTE ((A B) (C D) (E F))))
 output: NIL
+
+; Lisp I Programmer's Manual, page 16
+;
+input: (LIST (QUOTE A) (QUOTE B))
+output: (A∙B)
+
+input: (LIST (QUOTE A) (QUOTE (B C)))
+output: (A (B C))
+
+input: (PAIR (QUOTE (A B C)) (QUOTE (X Y Z)))
+output: ((A∙X) (B∙Y) (C∙Z))
+
+input: (PAIR (QUOTE (A B C)) (QUOTE (X (Y Z) U)))
+output: ((A∙X) (B (Y Z)) (C∙U))
+
+; Lisp I Programmer's Manual, page 16
+input: (CAAR (QUOTE ((A B) (C D))))
+output: A
+
+input: (CADAR (QUOTE ((A B) (C D))))
+output: B
+
+input: (ASSOC (QUOTE A) (QUOTE ((A B) (C D))))
+output: B
+
+input: (ASSOC (QUOTE C) (QUOTE ((A B) (C D))))
+output: D
+
 
 ; Lisp I Programmer's Manual, page 100
 ;
