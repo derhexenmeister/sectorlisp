@@ -4,7 +4,7 @@
 ;; March 1, 1960
 ;; by Phyllis Fox
 ;;
-((LAMBDA (FF SUBST NOT OR AND EQUAL NULL APPEND COLLAPSE)
+((LAMBDA (FF SUBST NOT OR AND EQUAL NULL APPEND AMONG COLLAPSE)
 INSERT_TEST_DATA_HERE
 )
  ;
@@ -57,7 +57,8 @@ INSERT_TEST_DATA_HERE
  ; (equal x y) this is a predicate that has the value T is x and y are the
  ; same s-expression and has the value NIL otherwise.
  ;
- ; NOTE: original didn't use COND, but I found it easier to parse
+ ; NOTE: original didn't use COND, but our AND/OR don't short circuit during
+ ; eval
  ;
  (QUOTE (LAMBDA (X Y)
                 (COND ((AND (ATOM X) (ATOM Y)) (EQ X Y))
@@ -73,7 +74,7 @@ INSERT_TEST_DATA_HERE
                 (AND (ATOM X) (EQ X NIL))
                 ))
  ;
- ; Page 15
+ ; Page 16
  ; (append x y) useful when S-expressions are regarded as lists
  ;
  (QUOTE (LAMBDA (X Y)
@@ -81,6 +82,17 @@ INSERT_TEST_DATA_HERE
                       ((QUOTE T) (CONS (CAR X) (APPEND (CDR X) Y)))
                       )
                 ))
+ ;
+ ; Page 16
+ ; (among x y) - this predicate is true if  the S-expression X
+ ; occurs among the elements of list y
+ ; Note: rewrote with cond since AND doesn't short circuit eval
+ ;
+ (QUOTE (LAMBDA (X Y)
+                (COND ((NULL Y) NIL)
+                      ((QUOTE T) (OR (EQUAL X (CAR Y))
+                                     (AMONG X (CDR Y))))
+                      )))
  ;
  ; Page xx
  ; Based on "Function to Collapse a List of Elements"

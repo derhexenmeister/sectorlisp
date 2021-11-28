@@ -92,6 +92,28 @@ output: (A B C D E F)
 input: (APPEND (QUOTE (A B C)) (QUOTE (D E F G)))
 output: (A B C D E F G)
 
+; Lisp I Programmer's Manual, page 16
+;
+input: (AMONG (QUOTE A) NIL)
+output: NIL
+
+input: (AMONG (QUOTE A) (QUOTE (A B)))
+output: T
+
+input: (AMONG (QUOTE B) (QUOTE (A B)))
+output: T
+
+input: (AMONG (QUOTE C) (QUOTE (A B)))
+output: NIL
+
+input: (AMONG (QUOTE (A B)) (QUOTE ((A B) (C D) (E F))))
+output: T
+
+input: (AMONG (QUOTE (E F)) (QUOTE ((A B) (C D) (E F))))
+output: T
+
+input: (AMONG (QUOTE A) (QUOTE ((A B) (C D) (E F))))
+output: NIL
 
 ; Lisp I Programmer's Manual, page 100
 ;
