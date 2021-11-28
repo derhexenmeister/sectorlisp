@@ -151,11 +151,17 @@ input: (ASSOC (QUOTE C) (QUOTE ((A B) (C D))))
 output: D
 
 
+; Lisp I Programmer's Manual, page 17
+;
+; Broken
+;input: (SUBLIS (QUOTE ((X (A B)) (Y (B C)))) (QUOTE (A (X Y))))
+;output: 
+
 ; Lisp I Programmer's Manual, page 100
 ;
-;input: (COLLAPSE (QUOTE (A B C D E F G)))
-;output: (A B C D E F G)
+input: (COLLAPSE (QUOTE (A B C D E F G)))
+output: (A B C D E F G)
 
-;input: (COLLAPSE (QUOTE ((A) (B (C D)))))
-;output: (A B C D)
+input: (COLLAPSE (QUOTE ((A) (B (C D)))))
+output: (A B C D)
 

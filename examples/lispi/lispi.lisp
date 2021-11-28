@@ -4,7 +4,7 @@
 ;; March 1, 1960
 ;; by Phyllis Fox
 ;;
-((LAMBDA (FF SUBST NOT OR AND EQUAL NULL APPEND AMONG LIST PAIR CAAR CADAR ASSOC COLLAPSE)
+((LAMBDA (FF SUBST NOT OR AND EQUAL NULL APPEND AMONG LIST PAIR CAAR CADAR ASSOC SUB2 SUBLIS COLLAPSE)
 INSERT_TEST_DATA_HERE
 )
  ;
@@ -123,8 +123,25 @@ INSERT_TEST_DATA_HERE
                 (COND ((EQUAL X (CAAR Y)) (CADAR Y))
                       ((QUOTE T) (ASSOC X (CDR Y))))
                 ))
+ ; Page 17
+ ; (sub2 x z) - helper function
+ (QUOTE (LAMBDA (X Z)
+                (COND ((NULL X) Z)
+                      ((EQ (CAAR X) Z) (CADAR X))
+                      ((QUOTE T) (SUB2 (CDR X) Z)))
+                ))
+ ; (sublis x y) - here x is assumed to have the form of a list
+ ; of pairs ((u1 v1) ... (un vn)) where the u's are atomic, and
+ ; y may be any s-expression. The value of (sublis x y) is the
+ ; result of substituting each v for the corresponing u in y.
  ;
- ; Page xx
+ (QUOTE (LAMBDA (X Y)
+                (COND ((ATOM Y) (SUB2 X Y))
+                      ((QUOTE T) (CONS (SUBLIS X (CAR Y))
+                                       (SUBLIS X (CDR Y)))))
+                      ))
+ ;
+ ; Page 99
  ; Based on "Function to Collapse a List of Elements"
  ;
  (QUOTE (LAMBDA (L)
