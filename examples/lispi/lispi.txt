@@ -36,6 +36,63 @@ output: ((A (X∙A))∙C)
 input: (SUBST (QUOTE NEW) (QUOTE OLD) (QUOTE (OLD A B C OLD (OLD OLD OLD) D E F OLD)))
 output: (NEW A B C NEW (NEW NEW NEW) D E F NEW)
 
+; Lisp I Programmer's Manual, page 15
+input: (EQUAL (QUOTE A) (QUOTE A))
+output: T
+;
+input: (EQUAL (QUOTE A) (QUOTE B))
+output: NIL
+
+input: (EQUAL (QUOTE (A B C D (E F) (G H (I) J K) L M N)) (QUOTE (A B C D (E F) (G H (I) J K) L M N)))
+output: T
+;
+input: (EQUAL (QUOTE (A B C D (E F) (G H (I) J K) L M N)) (QUOTE (A B C D (E F) (G H (Z) J K) L M N)))
+output: NIL
+
+; Lisp I Programmer's Manual, page 15
+;
+input: (NULL NIL)
+output: T
+
+input: (NULL (QUOTE ()))
+output: T
+
+input: (NULL (QUOTE A))
+output: NIL
+
+input: (NULL (QUOTE (A B)))
+output: NIL
+
+input: (NULL (QUOTE (A (B) C)))
+output: NIL
+
+; Lisp I Programmer's Manual, page 16
+;
+input: (APPEND NIL (QUOTE (A)))
+output: (A)
+
+input: (APPEND (QUOTE (A)) NIL)
+output: (A)
+
+input: (APPEND (QUOTE (A)) (QUOTE (B)))
+output: (A B)
+
+input: (APPEND (QUOTE (A)) (QUOTE (B C)))
+output: (A B C)
+
+input: (APPEND (QUOTE (A B)) (QUOTE (C)))
+output: (A B C)
+
+input: (APPEND (QUOTE (A B C)) (QUOTE (D E)))
+output: (A B C D E)
+
+input: (APPEND (QUOTE (A B C)) (QUOTE (D E F)))
+output: (A B C D E F)
+
+input: (APPEND (QUOTE (A B C)) (QUOTE (D E F G)))
+output: (A B C D E F G)
+
+
 ; Lisp I Programmer's Manual, page 100
 ;
 ;input: (COLLAPSE (QUOTE (A B C D E F G)))
