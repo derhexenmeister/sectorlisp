@@ -4,7 +4,7 @@
 ;; March 1, 1960
 ;; by Phyllis Fox
 ;;
-((LAMBDA (FF SUBST NOT OR AND EQUAL NULL APPEND AMONG LIST PAIR CAAR CADAR ASSOC SUB2 SUBLIS COLLAPSE)
+((LAMBDA (FF SUBST NOT OR AND EQUAL NULL APPEND AMONG LIST PAIR CAAR CADAR ASSOC SUB2 SUBLIS MAPLIST COLLAPSE)
 INSERT_TEST_DATA_HERE
 )
  ;
@@ -140,6 +140,15 @@ INSERT_TEST_DATA_HERE
                       ((QUOTE T) (CONS (SUBLIS X (CAR Y))
                                        (SUBLIS X (CDR Y)))))
                       ))
+ ;
+ ; Page 21
+ ; (maplist x f) an S-expression argument x and an argument f that is
+ ; a function from S-expressions to S-expressions
+ ;
+ (QUOTE (LAMBDA (X F)
+                (COND ((NULL X) NIL)
+                      ((QUOTE T) (CONS (F (CAR X)) (MAPLIST (CDR X) F))))
+                ))
  ;
  ; Page 99
  ; Based on "Function to Collapse a List of Elements"

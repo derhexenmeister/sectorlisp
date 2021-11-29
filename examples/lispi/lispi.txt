@@ -168,6 +168,23 @@ input: (SUBLIS (QUOTE ((X (A B)) (Y (B C)))) (QUOTE (A (X Y))))
 ;output: (A (A B) B C)
 output: (A ((A B) (B C)))
 
+; Lisp I Programmer's Manual, page 21
+;
+input: (MAPLIST (QUOTE ((A B C) (D E F) (G H I))) (QUOTE CAR))
+output: (A D G)
+
+input: (MAPLIST (QUOTE ((A B C) (D E F) (G H I))) (QUOTE CDR))
+output: ((B C) (E F) (H I))
+
+input: (MAPLIST (QUOTE ((A B C) (D E F) (G H I))) (QUOTE (LAMBDA (X) (CAR (CDR X)))))
+output: (B E H)
+
+input: (MAPLIST (QUOTE (((A B C) (D E F)) ((G H I) (J K L)))) (QUOTE CADAR))
+output: (B H)
+
+input: (MAPLIST (QUOTE (((A B C) (D E F)) ((G H I) (J K L)))) (QUOTE CAAR))
+output: (A G)
+
 ; Lisp I Programmer's Manual, page 100
 ;
 input: (COLLAPSE (QUOTE (A B C D E F G)))
