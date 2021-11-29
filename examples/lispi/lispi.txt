@@ -154,8 +154,19 @@ output: D
 ; Lisp I Programmer's Manual, page 17
 ;
 ; Broken
-;input: (SUBLIS (QUOTE ((X (A B)) (Y (B C)))) (QUOTE (A (X Y))))
-;output: 
+input: (SUBLIS (QUOTE ((X A) (Y B))) (QUOTE (X Y)))
+output: (A B)
+
+input: (SUBLIS (QUOTE ((X (A B)) (Y (B C)))) (QUOTE (X Y)))
+output: ((A B) (B C))
+
+input: (SUBLIS (QUOTE ((X (A B)) (Y (B C)))) (QUOTE (X Y X Y)))
+output: ((A B) (B C) (A B) (B C))
+
+input: (SUBLIS (QUOTE ((X (A B)) (Y (B C)))) (QUOTE (A (X Y))))
+; The manual gives this expected answer which seems incorrect
+;output: (A (A B) B C)
+output: (A ((A B) (B C)))
 
 ; Lisp I Programmer's Manual, page 100
 ;
