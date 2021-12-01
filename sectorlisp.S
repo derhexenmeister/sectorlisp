@@ -36,13 +36,13 @@ kCdr:	.asciz	"CDR"				# ordering matters
 kCons:	.asciz	"CONS"				# ordering matters
 kEq:	.asciz	"EQ"				# needs to be last
 
-begin:	xor	%sp,%sp				# use highest address as stack
-						# set independently of SS!
+begin:	mov	$0x8000,%sp			# uses higher address as stack
+						# and set independently of SS!
 						# 8088 doesn't stop interrupts
 						# after SS is set, and PC BIOS
 						# sets SP to a value that will
 						# damage our code if int fires
-						# between setting SS and SP
+						# between it setting SS and SP
 	push	%cs				# that means ss = ds = es = cs
 	pop	%ds				# noting ljmp set cs to 0x7c00
 	push	%cs				# that's the bios load address
@@ -50,7 +50,7 @@ begin:	xor	%sp,%sp				# use highest address as stack
 	push	%cs				# terminated NIL string above!
 	pop	%ss				# errata exists but don't care
 	mov	$2,%bx
-main:	mov	$0x8000,%cx			# dl (g_look) is zero or cr
+main:	mov	%sp,%cx
 	call	GetToken
 	call	GetObject
 	call	Eval
@@ -229,23 +229,22 @@ Apply:	test	%ax,%ax				# Apply(fn:ax,x:si:a:dx):ax
 	mov	(%bx,%si),%si			# si = Cdr(x)
 	lodsw					# si = Cadr(x)
 	je	Cons
-.isEq:	cmp	%di,%ax				# we know for certain it's eq
+.isEq:	xor	%di,%ax				# we know for certain it's eq
 	jne	.retF
-.retT:	mov	$kT,%ax
+.retT:	mov	$kT,%al
 	ret
-
-Cadr:	mov	(%bx,%di),%di			# contents of decrement register
-	.byte	0x3C				# cmp §scasw,%al (nop next byte)
-Cdr:	scasw					# increments our data index by 2
-Car:	mov	(%di),%ax			# contents of address register!!
-2:	ret
 
 Assoc:	mov	%dx,%si				# Assoc(x:ax,y:dx):ax
 1:	mov	(%si),%di
 	mov	(%bx,%si),%si
 	scasw
 	jne	1b
-	jmp	Car
+	.byte	0xF6				# testb §i8,i16(%bp,%di) jmp Car
+Cadr:	mov	(%bx,%di),%di			# contents of decrement register
+	.byte	0x3C				# cmp §scasw,%al (nop next byte)
+Cdr:	scasw					# increments our data index by 2
+Car:	mov	(%di),%ax			# contents of address register!!
+2:	ret
 
 1:	mov	(%bx,%di),%di			# di = Cdr(c)
 Evcon:	push	%di				# save c
@@ -287,9 +286,10 @@ Eval:	test	%ax,%ax				# Eval(e:ax,a:dx):ax
 	pop	%dx				# restore a
 1:	ret
 
-.sig:	.fill	510 - (. - _start), 1, 0xce
+.sig:	.fill	512 - (2f - 1f) - (. - _start), 1, 0xce
+1:	.ascii	" SECTORLISP v2 "
 	.word	0xAA55
-	.type	.sig,@object
+2:	.type	.sig,@object
 	.type	kQuote,@object
 	.type	kCond,@object
 	.type	kAtom,@object
