@@ -95,21 +95,21 @@ output: 3
 
 ;; We can also use PAIRLIS to create the association list
 ;;
-input: (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ())
+input: (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) () )
 output: ((X∙24) (Y∙25) (Z∙26))
 
-input: (ASSOC (QUOTE X) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ()))
+input: (ASSOC (QUOTE X) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) () ))
 output: 24
 
-input: (ASSOC (QUOTE Y) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ()))
+input: (ASSOC (QUOTE Y) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) () ))
 output: 25
 
-input: (ASSOC (QUOTE Z) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ()))
+input: (ASSOC (QUOTE Z) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) () ))
 output: 26
 
 ;; For anything not in the association list -> NIL
 ;;
-input: (ASSOC (QUOTE OOPS) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) ()))
+input: (ASSOC (QUOTE OOPS) (PAIRLIS (QUOTE (X Y Z)) (QUOTE (24 25 26)) () ))
 output: NIL
 
 ;;;;;
@@ -140,10 +140,10 @@ output: NIL
 
 ;; (EVCON C A)
 ;;
-input: (EVCON (QUOTE (((EQ (QUOTE A) (QUOTE A)) (QUOTE TRUE))) NIL))
+input: (EVCON (QUOTE (((EQ (QUOTE A) (QUOTE A)) (QUOTE TRUE)))) NIL)
 output: TRUE
 
-input: (EVCON (QUOTE (((EQ (QUOTE A) (QUOTE B)) (QUOTE TRUE)) ((QUOTE T) (QUOTE FALSE))) NIL))
+input: (EVCON (QUOTE (((EQ (QUOTE A) (QUOTE B)) (QUOTE TRUE)) ((QUOTE T) (QUOTE FALSE)))) NIL)
 output: FALSE
 
 ;;;;;
@@ -344,13 +344,13 @@ output: (MY LITTLE PONY)
 
 ;; Simple demonstation of the environment
 ;;
-input: (EVAL (QUOTE A) (PAIRLIS (QUOTE (A B C)) (QUOTE (APPLE BANANA CARROT))))
+input: (EVAL (QUOTE A) (PAIRLIS (QUOTE (A B C)) (QUOTE (APPLE BANANA CARROT)) () ))
 output: APPLE
 
-input: (EVAL (QUOTE B) (PAIRLIS (QUOTE (A B C)) (QUOTE (APPLE BANANA CARROT))))
+input: (EVAL (QUOTE B) (PAIRLIS (QUOTE (A B C)) (QUOTE (APPLE BANANA CARROT)) () ))
 output: BANANA
 
-input: (EVAL (QUOTE C) (PAIRLIS (QUOTE (A B C)) (QUOTE (APPLE BANANA CARROT))))
+input: (EVAL (QUOTE C) (PAIRLIS (QUOTE (A B C)) (QUOTE (APPLE BANANA CARROT)) () ))
 output: CARROT
 
 ;; Quotes are simple
